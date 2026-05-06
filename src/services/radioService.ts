@@ -1,0 +1,93 @@
+import axios from 'axios';
+import { RadioStation, Tag, ApiResponse, SearchFilters } from '../types';
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
+
+/**
+ * Service to handle radio station data fetching and normalization.
+ */
+export const radioService = {
+  /**
+   * Normalizes raw API data to the RadioStation interface.
+   */
+  normalize(raw: any): RadioStation {
+    return {
+      id: raw.stationuuid,
+      name: raw.name,
+      streamUrl: raw.url_resolved || raw.url,
+      country: raw.country,
+      state: raw.state || '',
+      tags: raw.tags ? raw.tags.split(',').map((t: string) => t.trim()).filter(Boolean) : [],
+      favicon: raw.favicon,
+      codec: raw.codec,
+      bitrate: raw.bitrate,
+      votes: raw.votes
+    };
+  },
+
+  /**
+   * Fetches popular Brazilian stations.
+   */
+  async getBrazilStations(limit = 24, offset = 0): Promise<ApiResponse<RadioStation[]>> {
+    const response = await axios.get<any[]>(`${API_BASE}/stations/bycountry/Brazil`, {
+      params: { 
+        limit, 
+        offset,
+        order: 'votes',
+        reverse: 'true',
+        hidebroken: 'true'
+      }
+    });
+    
+    return {
+      success: true,
+      data: response.data.map(this.normalize),
+      total: 3500 // Approximate
+    };
+  },
+
+  /**
+   * Searches for stations with filters.
+   */
+  async searchStations(filters: SearchFilters): Promise<ApiResponse<RadioStation[]>> {
+    const { name, tag, state, limit = 20, offset = 0 } = filters;
+    const response = await axios.get<any[]>(`${API_BASE}/stations/search`, {
+      params: { 
+        name, 
+        tag, 
+        state, 
+        limit, 
+        offset,
+        country: 'Brazil',
+        order: 'votes',
+        reverse: 'true',
+        hidebroken: 'true'
+      }
+    });
+    
+    return {
+      success: true,
+      data: response.data.map(this.normalize),
+      total: response.data.length === limit ? limit + offset + 100 : limit + offset
+    };
+  },
+
+  /**
+   * Fetches popular tags/genres.
+   */
+  async getTags(limit = 30): Promise<ApiResponse<Tag[]>> {
+    const response = await axios.get<Tag[]>(`${API_BASE}/tags`, {
+      params: { 
+        limit,
+        order: 'stationcount',
+        reverse: 'true',
+        hidebroken: 'true'
+      }
+    });
+    return {
+      success: true,
+      data: response.data,
+      total: response.data.length
+    };
+  }
+};
