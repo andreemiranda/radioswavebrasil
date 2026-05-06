@@ -25,18 +25,173 @@ const App: React.FC = () => {
   const [selectedGenre, setSelectedGenre] = useState('');
   
   // --- PLAYER STATE ---
-  const [playing, setPlaying] = useState<RadioStation | null>(null);
+  const [playing, setPlaying] = useState<RadioStation | null>(() => {
+    try {
+      const saved = localStorage.getItem('RadioWaveBR_lastStation');
+      return saved ? (JSON.parse(saved) as RadioStation) : null;
+    } catch {
+      return null;
+    }
+  });
   const [isPlaying, setIsPlaying] = useState(false);
-  const [muted, setMuted] = useState(false);
-  const [volume, setVolume] = useState(0.8);
+  const [muted, setMuted] = useState<boolean>(() => {
+    return localStorage.getItem('RadioWaveBR_muted') === 'true';
+  });
+  const [volume, setVolume] = useState<number>(() => {
+    const saved = localStorage.getItem('RadioWaveBR_volume');
+    return saved ? parseFloat(saved) : 0.8;
+  });
   const [audioError, setAudioError] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const hasRestoredRef = useRef(false);
+
+  // --- PWA INSTALLATION LOGIC ---
+  const [installPrompt, setInstallPrompt] = useState<Event | null>(null);
+  const [showInstallBanner, setShowInstallBanner] = useState(false);
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+      const dismissed = localStorage.getItem('RadioWaveBR_pwaInstallDismissed');
+      if (!dismissed) {
+        setShowInstallBanner(true);
+      }
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!installPrompt) return;
+    const prompt = installPrompt as any;
+    prompt.prompt();
+    const { outcome } = await prompt.userChoice;
+    if (outcome === 'accepted') {
+      setShowInstallBanner(false);
+      setInstallPrompt(null);
+    }
+  };
+
+  const handleDismissInstall = () => {
+    setShowInstallBanner(false);
+    localStorage.setItem('RadioWaveBR_pwaInstallDismissed', 'true');
+  };
+
+  // --- PERSISTENCE EFFECTS ---
+  useEffect(() => {
+    if (playing) {
+      localStorage.setItem('RadioWaveBR_lastStation', JSON.stringify(playing));
+    }
+  }, [playing]);
+
+  useEffect(() => {
+    localStorage.setItem('RadioWaveBR_volume', String(volume));
+  }, [volume]);
+
+  useEffect(() => {
+    localStorage.setItem('RadioWaveBR_muted', String(muted));
+  }, [muted]);
+
+  // Restore playback on mount
+  useEffect(() => {
+    if (hasRestoredRef.current) return;
+    hasRestoredRef.current = true;
+
+    if (playing && audioRef.current) {
+      audioRef.current.src = playing.streamUrl;
+      audioRef.current.load();
+      audioRef.current.play()
+        .then(() => setIsPlaying(true))
+        .catch(() => {
+          console.info('[RadioWave] Autoplay blocked or failed. Waiting for interaction.');
+          setIsPlaying(false);
+        });
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // --- MEDIA SESSION API ---
+  useEffect(() => {
+    if (!('mediaSession' in navigator) || !playing) return;
+
+    try {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: playing.name,
+        artist: playing.country || 'Brasil',
+        album: playing.tags || 'Rádio Online',
+        artwork: [
+          {
+            src: playing.favicon && playing.favicon.startsWith('http')
+              ? playing.favicon
+              : '/og-image.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+          {
+            src: '/android-chrome-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+        ],
+      });
+
+      navigator.mediaSession.setActionHandler('play', () => {
+        audioRef.current?.play().then(() => setIsPlaying(true)).catch(console.error);
+      });
+
+      navigator.mediaSession.setActionHandler('pause', () => {
+        audioRef.current?.pause();
+        setIsPlaying(false);
+      });
+
+      navigator.mediaSession.setActionHandler('stop', () => {
+        audioRef.current?.pause();
+        setIsPlaying(false);
+      });
+    } catch (error) {
+      console.error('MediaSession Error:', error);
+    }
+
+    return () => {
+      // Cleanup handlers
+      ['play', 'pause', 'stop'].forEach(action => {
+        try { navigator.mediaSession.setActionHandler(action as any, null); } catch (_) {}
+      });
+    };
+  }, [playing]);
+
+  useEffect(() => {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+    }
+  }, [isPlaying]);
 
   // --- FAVORITES STATE ---
   const [favorites, setFavorites] = useState<RadioStation[]>(() => {
     const saved = localStorage.getItem('RadioWaveBR_favorites');
     return saved ? JSON.parse(saved) : [];
   });
+
+  // --- AUTO-FAVORITE LOGIC ---
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+
+    if (playing && isPlaying) {
+      // Se ouvir por 60 segundos (1 minuto) contínuos, adiciona aos favoritos automaticamente
+      timer = setTimeout(() => {
+        setFavorites(prev => {
+          const isFav = prev.some(s => s.id === playing.id);
+          if (!isFav) {
+            console.log(`[RadioWave] Auto-favoritando: ${playing.name} (audição prolongada)`);
+            return [...prev, playing];
+          }
+          return prev;
+        });
+      }, 60000); 
+    }
+
+    return () => clearTimeout(timer);
+  }, [playing, isPlaying]);
 
   useEffect(() => {
     localStorage.setItem('RadioWaveBR_favorites', JSON.stringify(favorites));
@@ -122,11 +277,17 @@ const App: React.FC = () => {
 
   const toggleFavorite = (e: React.MouseEvent, station: RadioStation) => {
     e.stopPropagation();
+
     setFavorites(prev => {
       const isFav = prev.some(s => s.id === station.id);
+
       if (isFav) {
+        // Removendo: fica na aba atual
         return prev.filter(s => s.id !== station.id);
       } else {
+        // Adicionando: navega para a aba Favoritos
+        setActiveTab('favorites');
+        setPage(1);
         return [...prev, station];
       }
     });
@@ -208,11 +369,45 @@ const App: React.FC = () => {
   }, [stationsData]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-brasil-light text-slate-800 font-body selection:bg-brasil-yellow selection:text-brasil-green">
+    <div className={cn(
+      "min-h-screen flex flex-col bg-brasil-light text-slate-800 font-body selection:bg-brasil-yellow selection:text-brasil-green",
+      playing ? "pb-[88px]" : ""
+    )}>
+      {showInstallBanner && (
+        <div className="fixed top-0 left-0 right-0 z-[300] bg-brasil-green text-white px-4 py-3 flex items-center justify-between gap-4 shadow-lg animate-in slide-in-from-top duration-300">
+          <div className="flex items-center gap-3">
+            <img src="/icon-192x192.png" alt="RadioWave" className="w-8 h-8 rounded-lg" />
+            <div>
+              <p className="text-sm font-black leading-tight">Instalar Radio Wave Brasil</p>
+              <p className="text-xs text-white/70 font-medium">Adicionar Ã  tela inicial â€” acesso rÃ¡pido e offline</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={handleInstallClick}
+              className="bg-brasil-yellow text-brasil-green text-xs font-black px-3 py-1.5 rounded-lg hover:bg-yellow-300 transition-colors"
+            >
+              Instalar
+            </button>
+            <button
+              onClick={handleDismissInstall}
+              className="text-white/60 hover:text-white text-xs font-bold px-2 py-1.5"
+              title="Dispensar"
+            >
+              âœ•
+            </button>
+          </div>
+        </div>
+      )}
       <audio 
         ref={audioRef} 
         crossOrigin="anonymous" 
         onEnded={() => setIsPlaying(false)}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        playsInline
+        x-webkit-airplay="allow"
+        onCanPlay={() => setAudioError(false)}
         onError={() => {
           if (playing) {
             setAudioError(true);
@@ -261,7 +456,7 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      <main className={cn("flex-grow max-w-7xl mx-auto w-full px-6 pt-8 pb-2", playing ? "pb-28" : "pb-4")}>
+      <main className="flex-grow max-w-7xl mx-auto w-full px-6 pt-8 pb-4">
         <section className="mb-8">
           <div className="flex flex-col md:flex-row gap-4">
             <form className="flex-1 flex gap-2" onSubmit={handleSearch}>

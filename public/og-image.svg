@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#009C3B"/>
+      <stop offset="100%" style="stop-color:#002776"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FFDF00"/>
+      <stop offset="100%" style="stop-color:#009C3B"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  
+  <!-- Decorative Waves -->
+  <g opacity="0.1">
+    <path d="M0 315 Q 300 100 600 315 T 1200 315" stroke="white" stroke-width="2" fill="none"/>
+    <path d="M0 365 Q 300 150 600 365 T 1200 365" stroke="white" stroke-width="2" fill="none"/>
+    <path d="M0 265 Q 300 50 600 265 T 1200 265" stroke="white" stroke-width="2" fill="none"/>
+  </g>
+
+  <!-- Large Radio Icon -->
+  <g transform="translate(100, 165) scale(8)" opacity="0.2">
+    <rect width="32" height="32" rx="8" fill="#FFDF00"/>
+    <path d="M8 20h16M10 14h12M13 8l6 6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="16" cy="20" r="3" fill="white"/>
+  </g>
+
+  <!-- Content -->
+  <text x="600" y="300" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="900" font-size="84" fill="white">
+    Radio Wave Brasil
+  </text>
+  <text x="600" y="380" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="600" font-size="32" fill="#FFDF00">
+    Ouça as melhores rádios brasileiras ao vivo
+  </text>
+
+  <!-- Brazil Flag Badge (Simple) -->
+  <g transform="translate(1100, 530) scale(0.1)">
+    <rect width="720" height="504" fill="#009b3a" />
+    <path fill="#fedf00" d="m360 43.2 316.8 208.8L360 460.8 43.2 252z" />
+    <circle fill="#0431af" cx="360" cy="252" r="100.8" />
+  </g>
+</svg>

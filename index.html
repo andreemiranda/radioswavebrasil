@@ -1,32 +1,114 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Radio Wave Brasil - A melhor seleção de rádios brasileiras ao vivo. Ouça Sertanejo, Pagode, Rock, News e muito mais." />
-    <meta name="keywords" content="rádio, brasil, rádio online, sertanejo, pagode, mpb, rádio ao vivo" />
-    <meta property="og:title" content="Radio Wave Brasil" />
-    <meta property="og:description" content="Sua rádio brasileira ao vivo em qualquer lugar." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- SEO -->
+    <title>Radio Wave Brasil â€” OuÃ§a RÃ¡dios Brasileiras ao Vivo</title>
+    <meta name="description" content="OuÃ§a as melhores rÃ¡dios do Brasil ao vivo: Sertanejo, Pagode, MPB, Rock, Gospel e NotÃcias. GrÃ¡tis, sem anÃºncios." />
+    <meta name="keywords" content="rÃ¡dio online brasil, rÃ¡dio ao vivo, sertanejo online, pagode ao vivo, mpb, gospel, notÃcias" />
+    <meta name="author" content="AndrÃ© Miranda" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://radioswavebr.netlify.app/" />
+
+    <!-- PWA / Theme -->
+    <meta name="theme-color" content="#009C3B" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1d26" />
+    <meta name="background-color" content="#1a1d26" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- PWA Mobile -->
+    <meta name="application-name" content="Radio Wave Brasil" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Apple / iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="RadioWave" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- iOS Splash Screens -->
+    <link rel="apple-touch-startup-image"
+          href="/apple-splash-750x1334.png"
+          media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
+    <link rel="apple-touch-startup-image"
+          href="/apple-splash-1170x2532.png"
+          media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+    <link rel="apple-touch-startup-image"
+          href="/apple-splash-1284x2778.png"
+          media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+    <link rel="apple-touch-startup-image"
+          href="/apple-splash-1179x2556.png"
+          media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+    <link rel="apple-touch-startup-image"
+          href="/apple-splash-1290x2796.png"
+          media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+    <link rel="apple-touch-startup-image"
+          href="/apple-splash-1620x2160.png"
+          media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
+    <link rel="apple-touch-startup-image"
+          href="/apple-splash-2048x2732.png"
+          media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
+
+    <!-- Windows / Microsoft -->
+    <meta name="msapplication-TileColor" content="#009C3B" />
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+    <meta name="msapplication-starturl" content="/" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://radioswavebr.netlify.app/" />
-    <meta property="og:image" content="https://radioswavebr.netlify.app/og-image.png" />
     <meta property="og:site_name" content="Radio Wave Brasil" />
-    
+    <meta property="og:url" content="https://radioswavebr.netlify.app/" />
+    <meta property="og:title" content="Radio Wave Brasil â€” OuÃ§a RÃ¡dios Brasileiras ao Vivo" />
+    <meta property="og:description" content="OuÃ§a as melhores rÃ¡dios do Brasil ao vivo: Sertanejo, Pagode, MPB, Rock, Gospel e NotÃcias. GrÃ¡tis, sem anÃºncios." />
+    <meta property="og:image" content="https://radioswavebr.netlify.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Radio Wave Brasil â€” player de rÃ¡dios brasileiras" />
+    <meta property="og:locale" content="pt_BR" />
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Radio Wave Brasil" />
-    <meta name="twitter:description" content="Sua rádio brasileira ao vivo em qualquer lugar." />
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
-    <title>Radio Wave Brasil - Sua rádio brasileira ao vivo</title>
+    <meta name="twitter:title" content="Radio Wave Brasil â€” OuÃ§a RÃ¡dios Brasileiras ao Vivo" />
+    <meta name="twitter:description" content="OuÃ§a as melhores rÃ¡dios do Brasil ao vivo: Sertanejo, Pagode, MPB, Rock, Gospel e NotÃcias." />
+    <meta name="twitter:image" content="https://radioswavebr.netlify.app/og-image.png" />
+    <meta name="twitter:image:alt" content="Radio Wave Brasil" />
+
+    <!-- JSON-LD (Schema.org) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Radio Wave Brasil",
+      "url": "https://radioswavebr.netlify.app/",
+      "description": "OuÃ§a rÃ¡dios brasileiras ao vivo: Sertanejo, Pagode, MPB, Rock, Gospel e NotÃcias.",
+      "applicationCategory": "MusicApplication",
+      "operatingSystem": "Web, Android, iOS",
+      "inLanguage": "pt-BR",
+      "isAccessibleForFree": true,
+      "image": "https://radioswavebr.netlify.app/og-image.png"
+    }
+    </script>
+
+    <!-- Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://de1.api.radio-browser.info" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

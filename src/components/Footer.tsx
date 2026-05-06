@@ -63,16 +63,38 @@ export const Footer: React.FC = () => {
           <div>
             <h3 className="text-brasil-yellow font-display font-bold uppercase tracking-widest text-xs mb-5">Siga-nos</h3>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-brasil-yellow hover:text-brasil-green hover:scale-115 hover:shadow-[0_4px_20px_rgba(255,223,0,0.4)] hover:rotate-6">
+              <a 
+                href="https://instagram.com/andremiranda04" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-brasil-yellow hover:text-brasil-green hover:scale-115 hover:shadow-[0_4px_20px_rgba(255,223,0,0.4)] hover:rotate-6"
+                aria-label="Instagram"
+              >
                 <Instagram size={20} />
               </a>
-              <a href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-brasil-yellow hover:text-brasil-green hover:scale-115 hover:shadow-[0_4px_20px_rgba(255,223,0,0.4)] hover:rotate-6">
+              <a 
+                href="https://x.com/andremirandaa" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-brasil-yellow hover:text-brasil-green hover:scale-115 hover:shadow-[0_4px_20px_rgba(255,223,0,0.4)] hover:rotate-6"
+                aria-label="Twitter"
+              >
                 <Twitter size={20} />
               </a>
-              <a href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-brasil-yellow hover:text-brasil-green hover:scale-115 hover:shadow-[0_4px_20px_rgba(255,223,0,0.4)] hover:rotate-6">
+              <a 
+                href="https://github.com/andreemiranda/radioswavebrasil" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-brasil-yellow hover:text-brasil-green hover:scale-115 hover:shadow-[0_4px_20px_rgba(255,223,0,0.4)] hover:rotate-6"
+                aria-label="GitHub"
+              >
                 <Github size={20} />
               </a>
-              <a href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-brasil-yellow hover:text-brasil-green hover:scale-115 hover:shadow-[0_4px_20px_rgba(255,223,0,0.4)] hover:rotate-6">
+              <a 
+                href="mailto:legislativemunicipal@aol.com" 
+                className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-brasil-yellow hover:text-brasil-green hover:scale-115 hover:shadow-[0_4px_20px_rgba(255,223,0,0.4)] hover:rotate-6"
+                aria-label="Email"
+              >
                 <Mail size={20} />
               </a>
             </div>

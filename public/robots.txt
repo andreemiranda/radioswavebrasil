@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://radioswavebr.netlify.app/sitemap.xml
+
+Disallow: /api/
