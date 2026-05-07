@@ -10,32 +10,32 @@ export default defineConfig(({ mode }) => {
       react(),
       tailwindcss(),
       VitePWA({
-        // â”€â”€ EstratÃ©gia de registro do Service Worker â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ── Estratégia de registro do Service Worker ──────────────────────
         registerType: 'autoUpdate',
-        // autoUpdate: atualiza o SW silenciosamente quando hÃ¡ nova versÃ£o
-        // sem precisar de prompt de confirmaÃ§Ã£o do usuÃ¡rio
+        // autoUpdate: atualiza o SW silenciosamente quando há nova versão
+        // sem precisar de prompt de confirmação do usuário
 
-        // â”€â”€ Inclui o SW no build â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ── Inclui o SW no build ──────────────────────────────────────────
         injectRegister: 'auto',
 
-        // â”€â”€ Dev: habilita SW em desenvolvimento para testes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-        devOptions: {
-          enabled: true,
-          type: 'module',
-        },
+        // ── Dev: habilita SW em desenvolvimento para testes ───────────────
+        // devOptions: {
+        //   enabled: true,
+        //   type: 'module',
+        // },
 
-        // â”€â”€ Workbox: configuraÃ§Ã£o de cache â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ── Workbox: configuração de cache ────────────────────────────────
         workbox: {
-          // Arquivos prÃ©-cacheados no install do SW (shell do app)
+          // Arquivos pré-cacheados no install do SW (shell do app)
           globPatterns: [
             '**/*.{js,css,html}',
             '**/*.{svg,png,ico,webp}',
             '**/*.{woff,woff2,ttf}',
           ],
 
-          // EstratÃ©gias de cache por tipo de recurso
+          // Estratégias de cache por tipo de recurso
           runtimeCaching: [
-            // â”€â”€ Google Fonts (CSS) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            // ── Google Fonts (CSS) ────────────────────────────────────────
             {
               urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
               handler: 'StaleWhileRevalidate',
@@ -44,7 +44,7 @@ export default defineConfig(({ mode }) => {
                 expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 },
               },
             },
-            // â”€â”€ Google Fonts (arquivos de fonte) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            // ── Google Fonts (arquivos de fonte) ──────────────────────────
             {
               urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
               handler: 'CacheFirst',
@@ -54,7 +54,7 @@ export default defineConfig(({ mode }) => {
                 cacheableResponse: { statuses: [0, 200] },
               },
             },
-            // â”€â”€ Radio Browser API â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            // ── Radio Browser API ─────────────────────────────────────────
             // NetworkFirst: tenta a rede, cai no cache se offline
             {
               urlPattern: /^https:\/\/.*\.api\.radio-browser\.info\/.*/i,
@@ -66,7 +66,7 @@ export default defineConfig(({ mode }) => {
                 networkTimeoutSeconds: 10,
               },
             },
-            // â”€â”€ Imagens de estaÃ§Ãµes de rÃ¡dio (favicons externos) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            // ── Imagens de estações de rádio (favicons externos) ──────────
             {
               urlPattern: /^https?:\/\/.*\.(png|jpg|jpeg|svg|ico|webp)$/i,
               handler: 'CacheFirst',
@@ -76,8 +76,8 @@ export default defineConfig(({ mode }) => {
                 cacheableResponse: { statuses: [0, 200] },
               },
             },
-            // â”€â”€ Streams de Ã¡udio: NUNCA cachear â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-            // Streams ao vivo nÃ£o podem ser cacheados (sÃ£o infinitos e dinÃ¢micos)
+            // ── Streams de áudio: NUNCA cachear ──────────────────────────
+            // Streams ao vivo não podem ser cacheados (são infinitos e dinâmicos)
             {
               urlPattern: /\.(mp3|aac|ogg|m3u8|m3u|pls|asx|wma)(\?.*)?$/i,
               handler: 'NetworkOnly', // sempre da rede, nunca do cache
@@ -85,27 +85,27 @@ export default defineConfig(({ mode }) => {
             },
           ],
 
-          // Limpa caches antigos de versÃµes anteriores do SW
+          // Limpa caches antigos de versões anteriores do SW
           cleanupOutdatedCaches: true,
 
-          // Ignora parÃ¢metros de URL ao verificar o cache
+          // Ignora parâmetros de URL ao verificar o cache
           ignoreURLParametersMatching: [/^utm_/, /^fbclid/, /^ref/],
 
-          // Permite navegaÃ§Ã£o offline (SPA fallback)
+          // Permite navegação offline (SPA fallback)
           navigateFallback: '/index.html',
           navigateFallbackDenylist: [/^\/api\//],
         },
 
-        // â”€â”€ Web App Manifest â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ── Web App Manifest ──────────────────────────────────────────────
         manifest: {
           name: 'Radio Wave Brasil',
           short_name: 'RadioWave',
-          description: 'OuÃ§a as melhores rÃ¡dios do Brasil ao vivo. Sertanejo, Pagode, MPB, Rock, Gospel e NotÃcias. GrÃ¡tis, sem anÃºncios.',
+          description: 'Ouça as melhores rádios do Brasil ao vivo. Sertanejo, Pagode, MPB, Rock, Gospel e Notícias. Grátis, sem anúncios.',
           start_url: '/',
           scope: '/',
           display: 'standalone',
-          // standalone: abre como app nativo (sem barra de endereÃ§o)
-          // outras opÃ§Ãµes: 'fullscreen' | 'minimal-ui' | 'browser'
+          // standalone: abre como app nativo (sem barra de endereço)
+          // outras opções: 'fullscreen' | 'minimal-ui' | 'browser'
           display_override: ['standalone', 'minimal-ui'],
           background_color: '#1a1d26',
           theme_color: '#009C3B',
@@ -114,7 +114,7 @@ export default defineConfig(({ mode }) => {
           orientation: 'portrait-primary',
           categories: ['music', 'entertainment', 'lifestyle'],
 
-          // â”€â”€ Ã cones â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+          // ── Ícones ───────────────────────────────────────────────────────
           icons: [
             {
               src: '/favicon-16x16.png',
@@ -142,7 +142,7 @@ export default defineConfig(({ mode }) => {
               sizes: '192x192',
               type: 'image/png',
               purpose: 'maskable',
-              // maskable: Ãcone com safe zone para Android adaptive icons
+              // maskable: ícone com safe zone para Android adaptive icons
             },
             {
               src: '/icon-256x256.png',
@@ -176,44 +176,44 @@ export default defineConfig(({ mode }) => {
             },
           ],
 
-          // â”€â”€ Screenshots (exibidas na tela de instalaÃ§Ã£o do PWA) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+          // ── Screenshots (exibidas na tela de instalação do PWA) ──────────
           screenshots: [
             {
               src: '/og-image.png',
               sizes: '1200x630',
               type: 'image/png',
               form_factor: 'wide',
-              label: 'Radio Wave Brasil â€” Tela principal desktop',
+              label: 'Radio Wave Brasil — Tela principal desktop',
             },
             {
               src: '/og-image.png',
               sizes: '1200x630',
               type: 'image/png',
               form_factor: 'narrow',
-              label: 'Radio Wave Brasil â€” Tela principal mobile',
+              label: 'Radio Wave Brasil — Tela principal mobile',
             },
           ],
 
-          // â”€â”€ Shortcuts (atalhos no Ãcone do app â€” Android long-press) â”€â”€â”€â”€â”€
+          // ── Shortcuts (atalhos no ícone do app — Android long-press) ─────
           shortcuts: [
             {
-              name: 'RÃ¡dios Top',
+              name: 'Rádios Top',
               short_name: 'Top',
-              description: 'Ver as rÃ¡dios mais populares do Brasil',
+              description: 'Ver as rádios mais populares do Brasil',
               url: '/?tab=top',
               icons: [{ src: '/icon-192x192.png', sizes: '192x192' }],
             },
             {
               name: 'Favoritos',
               short_name: 'Favoritos',
-              description: 'Suas rÃ¡dios favoritas',
+              description: 'Suas rádios favoritas',
               url: '/?tab=favorites',
               icons: [{ src: '/icon-192x192.png', sizes: '192x192' }],
             },
             {
-              name: 'Buscar RÃ¡dio',
+              name: 'Buscar Rádio',
               short_name: 'Buscar',
-              description: 'Buscar rÃ¡dios por nome ou gÃªnero',
+              description: 'Buscar rádios por nome ou gênero',
               url: '/?tab=search',
               icons: [{ src: '/icon-192x192.png', sizes: '192x192' }],
             },

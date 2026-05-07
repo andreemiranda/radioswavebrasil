@@ -39,9 +39,11 @@ export const radioService = {
       }
     });
     
+    const stations = Array.isArray(response.data) ? response.data : [];
+    
     return {
       success: true,
-      data: response.data.map(this.normalize),
+      data: stations.map(s => this.normalize(s)),
       total: 3500 // Approximate
     };
   },
@@ -65,10 +67,12 @@ export const radioService = {
       }
     });
     
+    const stations = Array.isArray(response.data) ? response.data : [];
+    
     return {
       success: true,
-      data: response.data.map(this.normalize),
-      total: response.data.length === limit ? limit + offset + 100 : limit + offset
+      data: stations.map(s => this.normalize(s)),
+      total: stations.length === limit ? limit + offset + 100 : limit + offset
     };
   },
 
@@ -84,10 +88,13 @@ export const radioService = {
         hidebroken: 'true'
       }
     });
+
+    const tags = Array.isArray(response.data) ? response.data : [];
+
     return {
       success: true,
-      data: response.data,
-      total: response.data.length
+      data: tags,
+      total: tags.length
     };
   }
 };

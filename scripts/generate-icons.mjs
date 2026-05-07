@@ -11,7 +11,7 @@ const faviconPath = './public/favicon.svg';
 const ogPath = './public/og-image.svg';
 
 async function generateIcons() {
-  console.log('--- Inicando geraÃ§Ã£o de Ãcones ---');
+  console.log('--- Inicando geração de ícones ---');
   
   try {
     const faviconBuffer = readFileSync(faviconPath);
@@ -33,7 +33,7 @@ async function generateIcons() {
         .resize(size, size)
         .png()
         .toFile(`${publicDir}/${file}`);
-      console.log(`âœ… Gerado: ${file} (${size}x${size})`);
+      console.log(`✅ Gerado: ${file} (${size}x${size})`);
     }
 
     // Gerar wide tile 310x150
@@ -41,7 +41,7 @@ async function generateIcons() {
       .resize(310, 150, { fit: 'contain', background: { r: 26, g: 29, b: 38, alpha: 1 } })
       .png()
       .toFile(`${publicDir}/mstile-310x150.png`);
-    console.log('âœ… Gerado: mstile-310x150.png (310x150)');
+    console.log('✅ Gerado: mstile-310x150.png (310x150)');
 
     // Gerar favicon.ico
     const pngs = await Promise.all([16, 32].map(async s => {
@@ -49,7 +49,7 @@ async function generateIcons() {
     }));
     const ico = await toIco(pngs);
     writeFileSync(`${publicDir}/favicon.ico`, ico);
-    console.log('âœ… Gerado: favicon.ico');
+    console.log('✅ Gerado: favicon.ico');
 
     // Gerar OG Image PNG
     if (existsSync(ogPath)) {
@@ -58,12 +58,12 @@ async function generateIcons() {
         .resize(1200, 630)
         .png()
         .toFile(`${publicDir}/og-image.png`);
-      console.log('âœ… Gerado: og-image.png (1200x630)');
+      console.log('✅ Gerado: og-image.png (1200x630)');
     }
 
-    console.log('--- GeraÃ§Ã£o de Ãcones concluÃda ---');
+    console.log('--- Geração de ícones concluída ---');
   } catch (error) {
-    console.error('âŒ Erro ao gerar Ãcones:', error);
+    console.error('❌ Erro ao gerar ícones:', error);
     process.exit(1);
   }
 }

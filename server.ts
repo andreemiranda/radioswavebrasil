@@ -109,6 +109,12 @@ async function startServer() {
     }
   });
 
+  // Alias for radioService compatibility
+  app.get("/api/stations/bycountry/Brazil", async (req, res) => {
+    const { limit, offset } = req.query;
+    res.redirect(`/api/stations/brazil?limit=${limit || 24}&offset=${offset || 0}`);
+  });
+
   // Tags (Popular tags)
   app.get("/api/tags", async (req, res) => {
     try {
@@ -211,11 +217,17 @@ async function startServer() {
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
-    app.use(vite.middlewares);
+    console.log("🛠️ Starting Vite middleware...");
+    try {
+      const vite = await createViteServer({
+        server: { middlewareMode: true },
+        appType: "spa",
+      });
+      app.use(vite.middlewares);
+      console.log("✅ Vite middleware attached.");
+    } catch (viteError) {
+      console.error("❌ Failed to start Vite server:", viteError);
+    }
   } else {
     app.use(express.static(path.join(process.cwd(), "dist")));
     app.get("*", (req, res) => {

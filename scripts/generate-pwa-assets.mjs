@@ -18,12 +18,12 @@ if (!existsSync(PUBLIC)) {
 // Lê o favicon.svg existente como buffer
 const svgPath = resolve(PUBLIC, 'favicon.svg');
 if (!existsSync(svgPath)) {
-  console.error('â Œ Erro: public/favicon.svg nÃ£o encontrado.');
+  console.error('❌ Erro: public/favicon.svg não encontrado.');
   process.exit(1);
 }
 const svgBuffer = readFileSync(svgPath);
 
-// â”€â”€â”€ Ã cones padrÃ£o â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Ícones padrão ────────────────────────────────────────────────────────────
 const standardIcons = [
   { file: 'favicon-16x16.png',        size: 16  },
   { file: 'favicon-32x32.png',        size: 32  },
@@ -33,7 +33,7 @@ const standardIcons = [
   { file: 'icon-192x192.png',         size: 192 },  // Android Chrome
   { file: 'icon-256x256.png',         size: 256 },
   { file: 'icon-384x384.png',         size: 384 },
-  { file: 'icon-512x512.png',         size: 512 },  // Splash + PWA obrigatÃ³rio
+  { file: 'icon-512x512.png',         size: 512 },  // Splash + PWA obrigatório
   // Windows tiles
   { file: 'mstile-70x70.png',         size: 70  },
   { file: 'mstile-144x144.png',       size: 144 },
@@ -47,12 +47,12 @@ async function generateAssets() {
       .resize(size, size, { fit: 'contain', background: { r: 0, g: 156, b: 59, alpha: 1 } })
       .png()
       .toFile(resolve(PUBLIC, file));
-    console.log(`âœ… ${file} (${size}x${size})`);
+    console.log(`✅ ${file} (${size}x${size})`);
   }
 
-  // â”€â”€â”€ Ã cone maskable (Android Adaptive Icon) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  // Maskable: Ãcone com 20% de safe zone preenchida com a cor de fundo
-  // O Ãcone SVG ocupa 60% do espaÃ§o, centralizado em fundo verde
+  // ─── Ícone maskable (Android Adaptive Icon) ───────────────────────────────────
+  // Maskable: ícone com 20% de safe zone preenchida com a col de fundo
+  // O ícone SVG ocupa 60% do espaço, centralizado em fundo verde
   await sharp(svgBuffer)
     .resize(410, 410, { fit: 'contain', background: { r: 0, g: 156, b: 59, alpha: 1 } })
     .extend({
@@ -62,7 +62,7 @@ async function generateAssets() {
     .resize(512, 512)
     .png()
     .toFile(resolve(PUBLIC, 'icon-512x512-maskable.png'));
-  console.log('âœ… icon-512x512-maskable.png (512x512, maskable)');
+  console.log('✅ icon-512x512-maskable.png (512x512, maskable)');
 
   await sharp(svgBuffer)
     .resize(154, 154, { fit: 'contain', background: { r: 0, g: 156, b: 59, alpha: 1 } })
@@ -73,9 +73,9 @@ async function generateAssets() {
     .resize(192, 192)
     .png()
     .toFile(resolve(PUBLIC, 'icon-192x192-maskable.png'));
-  console.log('âœ… icon-192x192-maskable.png (192x192, maskable)');
+  console.log('✅ icon-192x192-maskable.png (192x192, maskable)');
 
-  // â”€â”€â”€ Wide tile Windows (310x150) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Wide tile Windows (310x150) ──────────────────────────────────────────────
   await sharp(svgBuffer)
     .resize(100, 100, { fit: 'contain', background: { r: 0, g: 156, b: 59, alpha: 1 } })
     .extend({
@@ -85,10 +85,10 @@ async function generateAssets() {
     .resize(310, 150)
     .png()
     .toFile(resolve(PUBLIC, 'mstile-310x150.png'));
-  console.log('âœ… mstile-310x150.png (310x150)');
+  console.log('✅ mstile-310x150.png (310x150)');
 
-  // â”€â”€â”€ OG Image (Open Graph / Twitter Card) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  // Gera uma imagem OG 1200x630 com fundo escuro e Ãcone centralizado
+  // ─── OG Image (Open Graph / Twitter Card) ─────────────────────────────────────
+  // Gera uma imagem OG 1200x630 com fundo escuro e ícone centralizado
   const ogIconBuffer = await sharp(svgBuffer)
     .resize(200, 200, { fit: 'contain', background: { r: 26, g: 29, b: 38, alpha: 0 } })
     .png()
@@ -107,10 +107,10 @@ async function generateAssets() {
     ])
     .png()
     .toFile(resolve(PUBLIC, 'og-image.png'));
-  console.log('âœ… og-image.png (1200x630, Open Graph)');
+  console.log('✅ og-image.png (1200x630, Open Graph)');
 
-  // â”€â”€â”€ Splash Screens iOS (Apple Splash) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  // iOS exige splash screens em tamanhos especÃficos por dispositivo
+  // ─── Splash Screens iOS (Apple Splash) ────────────────────────────────────────
+  // iOS exige splash screens em tamanhos específicos por dispositivo
   const splashScreens = [
     // iPhone SE, 8, 7, 6
     { file: 'apple-splash-750x1334.png',   w: 750,  h: 1334 },
@@ -122,14 +122,14 @@ async function generateAssets() {
     { file: 'apple-splash-1179x2556.png',  w: 1179, h: 2556 },
     // iPhone 14 Pro Max, 15 Pro Max
     { file: 'apple-splash-1290x2796.png',  w: 1290, h: 2796 },
-    // iPad 9Âª geraÃ§Ã£o
+    // iPad 9ª geração
     { file: 'apple-splash-1620x2160.png',  w: 1620, h: 2160 },
     // iPad Pro 12.9"
     { file: 'apple-splash-2048x2732.png',  w: 2048, h: 2732 },
   ];
 
   for (const { file, w, h } of splashScreens) {
-    const iconSize = Math.round(Math.min(w, h) * 0.25); // Ãcone = 25% da menor dimensÃ£o
+    const iconSize = Math.round(Math.min(w, h) * 0.25); // ícone = 25% da menor dimensão
     const iconBuf = await sharp(svgBuffer)
       .resize(iconSize, iconSize, { fit: 'contain', background: { r: 26, g: 29, b: 38, alpha: 0 } })
       .png()
@@ -141,10 +141,10 @@ async function generateAssets() {
       .composite([{ input: iconBuf, gravity: 'centre' }])
       .png()
       .toFile(resolve(PUBLIC, file));
-    console.log(`âœ… ${file} (${w}x${h})`);
+    console.log(`✅ ${file} (${w}x${h})`);
   }
 
-  // â”€â”€â”€ favicon.ico (multi-resoluÃ§Ã£o: 16 + 32 + 48) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── favicon.ico (multi-resolução: 16 + 32 + 48) ──────────────────────────────
   try {
     const { default: toIco } = await import('to-ico');
     const pngs = [
@@ -154,12 +154,12 @@ async function generateAssets() {
     ];
     const ico = await toIco(pngs);
     writeFileSync(resolve(PUBLIC, 'favicon.ico'), ico);
-    console.log('âœ… favicon.ico (16+32+48px multi-resoluÃ§Ã£o)');
+    console.log('✅ favicon.ico (16+32+48px multi-resolução)');
   } catch (error) {
-    console.warn('âš ï¸   to-ico nÃ£o encontrado ou falhou â€” instale com: npm i -D to-ico');
+    console.warn('⚠️  to-ico não encontrado ou falhou — instale com: npm i -D to-ico');
   }
 
-  console.log('\nðŸŽ‰ Todos os assets PWA gerados em /public/');
+  console.log('\n🎉 Todos os assets PWA gerados em /public/');
 }
 
 generateAssets().catch(console.error);

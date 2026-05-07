@@ -6,20 +6,20 @@
   NODE_VERSION = "20"
   NPM_VERSION  = "10"
 
-# â”€â”€â”€ Proxy API Radio Browser (evita CORS) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ─── Proxy API Radio Browser (evita CORS) ──────────────────────────────────
 [[redirects]]
   from   = "/api/*"
   to     = "https://de1.api.radio-browser.info/json/:splat"
   status = 200
   force  = true
 
-# â”€â”€â”€ SPA fallback â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ─── SPA fallback ──────────────────────────────────────────────────────────
 [[redirects]]
   from   = "/*"
   to     = "/index.html"
   status = 200
 
-# â”€â”€â”€ Headers globais â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ─── Headers globais ───────────────────────────────────────────────────────
 [[headers]]
   for = "/*"
   [headers.values]
@@ -29,7 +29,7 @@
     Referrer-Policy            = "strict-origin-when-cross-origin"
     Permissions-Policy         = "camera=(), microphone=(), geolocation=(), payment=()"
 
-# â”€â”€â”€ Service Worker â€” sem cache (deve sempre ser o mais recente) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ─── Service Worker — sem cache (deve sempre ser o mais recente) ────────────
 [[headers]]
   for = "/sw.js"
   [headers.values]
@@ -41,14 +41,14 @@
   [headers.values]
     Cache-Control = "no-cache, no-store, must-revalidate"
 
-# â”€â”€â”€ Web App Manifest â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ─── Web App Manifest ──────────────────────────────────────────────────────
 [[headers]]
   for = "/manifest.webmanifest"
   [headers.values]
     Cache-Control = "public, max-age=86400"
     Content-Type  = "application/manifest+json; charset=UTF-8"
 
-# â”€â”€â”€ Ã cones e imagens estÃ¡ticas â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ─── Ícones e imagens estáticas ────────────────────────────────────────────
 [[headers]]
   for = "/*.png"
   [headers.values]
@@ -64,19 +64,19 @@
   [headers.values]
     Cache-Control = "public, max-age=86400"
 
-# â”€â”€â”€ Assets do build (hash no nome = imutÃ¡veis) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ─── Assets do build (hash no nome = imutáveis) ────────────────────────────
 [[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# â”€â”€â”€ Fontes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ─── Fontes ────────────────────────────────────────────────────────────────
 [[headers]]
   for = "/*.woff2"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# â”€â”€â”€ Outros arquivos estÃ¡ticos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ─── Outros arquivos estáticos ─────────────────────────────────────────────
 [[headers]]
   for = "/robots.txt"
   [headers.values]
