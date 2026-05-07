@@ -107,8 +107,6 @@ export const Footer: React.FC = () => {
         <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-black uppercase tracking-[0.2em] opacity-40">
           <div className="flex flex-col md:flex-row items-center gap-4">
              <p>© {new Date().getFullYear()} Radio Wave Brasil</p>
-             <span className="hidden md:inline">•</span>
-             <p>100% Em conformidade com a LGPD</p>
           </div>
           <p className="text-brasil-yellow">Desenvolvido por André Miranda</p>
         </div>
