@@ -53,7 +53,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         {getPageNumbers().map((page, idx) => (
           <React.Fragment key={idx}>
             {page === '...' ? (
-              <span className="px-2 text-slate-300 text-sm font-bold">...</span>
+              <span className="px-2 text-theme-text-secondary/50 text-sm font-bold">...</span>
             ) : (
               <Button
                 variant={currentPage === page ? "primary" : "ghost"}
@@ -61,7 +61,7 @@ export const Pagination: React.FC<PaginationProps> = ({
                 onClick={() => onPageChange(Number(page))}
                 className={cn(
                   "w-10 h-10 rounded-xl font-black transition-all",
-                  currentPage === page ? "shadow-lg scale-110" : "text-slate-400 hover:text-slate-600"
+                  currentPage === page ? "shadow-lg scale-110" : "text-theme-text-secondary hover:text-theme-text-primary"
                 )}
               >
                 {page}

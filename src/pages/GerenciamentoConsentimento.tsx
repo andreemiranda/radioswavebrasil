@@ -82,22 +82,22 @@ const GerenciamentoConsentimento: React.FC = () => {
             <ShieldCheck size={24} className="text-brasil-green" />
             Status Atual
           </h2>
-          <div className={consent ? "bg-green-50 border border-green-100 p-6 rounded-2xl" : "bg-orange-50 border border-orange-100 p-6 rounded-2xl"}>
+          <div className={consent ? "bg-green-500/10 border border-green-500/20 p-6 rounded-2xl shadow-inner" : "bg-orange-500/10 border border-orange-500/20 p-6 rounded-2xl shadow-inner"}>
             {consent ? (
               <div className="flex items-center gap-4">
-                <CheckCircle2 size={40} className="text-green-500 shrink-0" />
+                <CheckCircle2 size={40} className="text-green-400 shrink-0" />
                 <div>
-                  <p className="font-bold text-green-800">Consentimento Registrado</p>
-                  <p className="text-sm text-green-700">Você aceitou os cookies em: {new Date(consent.timestamp).toLocaleString()}</p>
-                  <p className="text-xs text-green-600 mt-1 uppercase font-black">Versão {consent.version}</p>
+                  <p className="font-bold text-green-200">Consentimento Registrado</p>
+                  <p className="text-sm text-green-300">Você aceitou os cookies em: {new Date(consent.timestamp).toLocaleString()}</p>
+                  <p className="text-xs text-green-400/60 mt-1 uppercase font-black">Versão {consent.version}</p>
                 </div>
               </div>
             ) : (
               <div className="flex items-center gap-4">
-                <AlertCircle size={40} className="text-orange-500 shrink-0" />
+                <AlertCircle size={40} className="text-orange-400 shrink-0" />
                 <div>
-                  <p className="font-bold text-orange-800">Consentimento Pendente</p>
-                  <p className="text-sm text-orange-700">Você ainda não configurou suas preferências de privacidade.</p>
+                  <p className="font-bold text-orange-200">Consentimento Pendente</p>
+                  <p className="text-sm text-orange-300">Você ainda não configurou suas preferências de privacidade.</p>
                 </div>
               </div>
             )}
@@ -108,21 +108,21 @@ const GerenciamentoConsentimento: React.FC = () => {
         <section>
           <h2 className="mt-0">Categorias de Dados</h2>
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl">
+            <div className="flex items-center justify-between p-4 bg-white/5 border border-white/5 rounded-xl">
               <div>
-                <p className="font-bold">🔒 Essenciais (Obrigatórios)</p>
-                <p className="text-xs text-slate-500">Volume, favoritos, última estação e decisão de cookies.</p>
+                <p className="font-bold text-white text-sm md:text-base">🔒 Essenciais (Obrigatórios)</p>
+                <p className="text-xs text-brasil-text-secondary">Volume, favoritos, última estação e decisão de cookies.</p>
               </div>
-              <div className="bg-brasil-green text-white text-[10px] font-black px-2 py-1 rounded">ATIVO</div>
+              <div className="bg-brasil-green/20 text-brasil-green text-[10px] font-black px-2 py-1 rounded border border-brasil-green/30">ATIVO</div>
             </div>
             
-            <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl">
+            <div className="flex items-center justify-between p-4 bg-white/5 border border-white/5 rounded-xl">
                <div>
-                 <p className="font-bold">📊 Funcionais (Opcionais)</p>
-                 <p className="text-xs text-slate-500">Lembrar escolha de não exibir banner de instalação PWA.</p>
+                 <p className="font-bold text-white text-sm md:text-base">📊 Funcionais (Opcionais)</p>
+                 <p className="text-xs text-brasil-text-secondary">Lembrar escolha de não exibir banner de instalação PWA.</p>
                </div>
-               <div className="w-12 h-6 bg-slate-300 rounded-full relative cursor-not-allowed opacity-50">
-                  <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+               <div className="w-12 h-6 bg-white/10 rounded-full relative cursor-not-allowed opacity-50">
+                  <div className="absolute right-1 top-1 w-4 h-4 bg-white/20 rounded-full"></div>
                </div>
             </div>
           </div>
@@ -131,21 +131,21 @@ const GerenciamentoConsentimento: React.FC = () => {
         {/* Ações de Dados */}
         <section>
            <h2>Seus Dados e Controles</h2>
-           <p className="text-sm text-slate-600 mb-6 font-medium leading-relaxed">
+           <p className="text-sm text-brasil-text-secondary mb-6 font-medium leading-relaxed">
              Abaixo você pode visualizar, baixar ou excluir permanentemente todas as informações que o Radio Wave Brasil salvou no seu navegador. <strong>Lembre-se:</strong> uma vez excluídos, seus favoritos não poderão ser recuperados.
            </p>
 
            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <button 
                 onClick={() => setShowData(!showData)}
-                className="flex items-center justify-center gap-3 p-4 bg-slate-100 hover:bg-slate-200 transition-colors rounded-xl font-bold"
+                className="flex items-center justify-center gap-3 p-4 bg-white/5 hover:bg-white/10 transition-colors rounded-xl font-bold text-white border border-white/5"
               >
                 {showData ? 'Esconder meus dados' : 'Ver meus dados salvos'}
               </button>
               
               <button 
                 onClick={handleExport}
-                className="flex items-center justify-center gap-3 p-4 bg-brasil-light text-brasil-green border-2 border-brasil-green hover:bg-brasil-green hover:text-white transition-all rounded-xl font-bold"
+                className="flex items-center justify-center gap-3 p-4 bg-brasil-green/10 text-brasil-green border border-brasil-green/30 hover:bg-brasil-green hover:text-brasil-light transition-all rounded-xl font-bold"
               >
                 <Download size={18} />
                 Exportar meus dados (JSON)
@@ -153,14 +153,14 @@ const GerenciamentoConsentimento: React.FC = () => {
               
               <button 
                 onClick={handleRevoke}
-                className="flex items-center justify-center gap-3 p-4 bg-orange-100 text-orange-700 hover:bg-orange-200 transition-colors rounded-xl font-bold"
+                className="flex items-center justify-center gap-3 p-4 bg-orange-500/10 text-orange-400 border border-orange-500/20 hover:bg-orange-500 hover:text-white transition-colors rounded-xl font-bold"
               >
                 Revogar Consentimento
               </button>
 
               <button 
                 onClick={handleClearAll}
-                className="flex items-center justify-center gap-3 p-4 bg-red-100 text-red-700 hover:bg-red-200 transition-colors rounded-xl font-bold"
+                className="flex items-center justify-center gap-3 p-4 bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white transition-colors rounded-xl font-bold"
               >
                 <Trash2 size={18} />
                 Apagar todos os dados
@@ -181,17 +181,17 @@ const GerenciamentoConsentimento: React.FC = () => {
         </section>
 
         {/* Direito de Titular */}
-        <section className="bg-brasil-blue/5 p-8 rounded-3xl border border-brasil-blue/10">
+        <section className="bg-brasil-green/5 p-8 rounded-3xl border border-brasil-green/10">
            <h2 className="mt-0 flex items-center gap-2">
-              <Mail size={24} className="text-brasil-blue" />
+              <Mail size={24} className="text-brasil-green" />
               Exercer seus Direitos
            </h2>
-           <p className="text-sm text-slate-700 leading-relaxed mb-6 font-medium">
+           <p className="text-sm text-brasil-text-secondary leading-relaxed mb-6 font-medium">
              Caso deseje fazer uma solicitação oficial referente aos seus dados, como portabilidade ou eliminação de logs técnicos, clique no botão abaixo para nos enviar um e-mail.
            </p>
            <a 
              href="mailto:legislativomunicipal@aol.com?subject=[LGPD] Solicitação de Direitos do Titular"
-             className="inline-flex items-center gap-2 bg-brasil-blue text-white font-bold px-8 py-4 rounded-2xl hover:bg-opacity-90 transition-all hover:scale-105 active:scale-95 shadow-xl"
+             className="inline-flex items-center gap-2 bg-brasil-green text-brasil-light font-bold px-8 py-4 rounded-2xl hover:scale-105 active:scale-95 shadow-accent-glow transition-all"
            >
              Enviar solicitação via E-mail
            </a>

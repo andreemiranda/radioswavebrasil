@@ -30,7 +30,7 @@ const BrazilFlagBadge = ({ className, style }: { className?: string; style?: Rea
  */
 const DefaultRadioIcon = ({ size }: { size: number }) => (
   <div 
-    className="relative bg-white flex items-center justify-center rounded-xl shadow-inner overflow-hidden border border-slate-100"
+    className="relative bg-brasil-surface flex items-center justify-center rounded-xl shadow-inner overflow-hidden border border-white/5"
     style={{ width: size, height: size }}
   >
     <Radio className="text-brasil-green" size={size * 0.45} />
@@ -64,7 +64,7 @@ export const StationImage: React.FC<StationImageProps> = ({
   return (
     <div 
       className={cn(
-        "relative overflow-hidden flex items-center justify-center bg-white rounded-xl shrink-0 border border-slate-100 shadow-sm transition-transform group-hover:scale-105",
+        "relative overflow-hidden flex items-center justify-center bg-brasil-surface rounded-xl shrink-0 border border-white/5 shadow-sm transition-transform group-hover:scale-105",
         className
       )}
       style={{ width: size, height: size }}
@@ -77,9 +77,10 @@ export const StationImage: React.FC<StationImageProps> = ({
         referrerPolicy="no-referrer"
         loading="lazy"
       />
-      {/* Suttle badge even on real images can be nice but user asked for fallback specifically. 
-          However, adding a suttle indicators of Brazil is good. 
-          Let's stick to the prompt: Automatic fallback icon. */}
+      <BrazilFlagBadge 
+        className="absolute bottom-1 right-1 z-10" 
+        style={{ width: size * 0.35, height: 'auto' }}
+      />
     </div>
   );
 };

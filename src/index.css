@@ -1,52 +1,109 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap');
 
 @theme {
-  --color-brasil-green: #009C3B;
-  --color-brasil-yellow: #FFDF00;
-  --color-brasil-blue: #002776;
-  --color-brasil-white: #FFFFFF;
-  --color-brasil-light: #F8F9FA;
+  --color-theme-bg: var(--theme-bg);
+  --color-theme-surface: var(--theme-surface);
+  --color-theme-primary: var(--theme-primary);
+  --color-theme-secondary: var(--theme-secondary);
+  --color-theme-accent: var(--theme-accent);
+  --color-theme-text-primary: var(--theme-text-primary);
+  --color-theme-text-secondary: var(--theme-text-secondary);
+  --color-theme-border: var(--theme-border);
+  --color-theme-header: var(--theme-header);
+  --color-theme-footer: var(--theme-footer);
 
   --font-display: "Outfit", sans-serif;
   --font-body: "Inter", sans-serif;
 
   --radius-xl: 1rem;
-}
 
-@layer utilities {
-  /* Sombras temáticas reutilizáveis */
-  .shadow-green-glow {
-    box-shadow: 0 4px 24px rgba(0, 156, 59, 0.18), 0 1px 6px rgba(0, 156, 59, 0.10);
-  }
-  .shadow-yellow-glow {
-    box-shadow: 0 4px 24px rgba(255, 223, 0, 0.25), 0 1px 6px rgba(255, 223, 0, 0.15);
-  }
-  .shadow-blue-glow {
-    box-shadow: 0 4px 24px rgba(0, 39, 118, 0.18), 0 1px 6px rgba(0, 39, 118, 0.10);
-  }
-  .shadow-card {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
-  }
-  .shadow-card-hover {
-    box-shadow: 0 8px 32px rgba(0, 156, 59, 0.14), 0 2px 8px rgba(0,0,0,0.08);
-  }
-  .shadow-player {
-    box-shadow: 0 -8px 40px rgba(0,0,0,0.18), 0 -2px 8px rgba(0,0,0,0.10);
-  }
+  /* Premium Easing & Duration */
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
+  :root.brazil {
+    --theme-bg: #F8FAFC;
+    --theme-surface: #FFFFFF;
+    --theme-primary: #009C3B;
+    --theme-secondary: #002776;
+    --theme-accent: #FFDF00;
+    --theme-text-primary: #0F172A;
+    --theme-text-secondary: #64748B;
+    --theme-border: #E2E8F0;
+    --theme-header: #002776;
+    --theme-footer: #002776;
+  }
+
+  :root.dark {
+    --theme-bg: #030712;
+    --theme-surface: #111827;
+    --theme-primary: #00D4FF;
+    --theme-secondary: #3B82F6;
+    --theme-accent: #00D4FF;
+    --theme-text-primary: #F9FAFB;
+    --theme-text-secondary: #9CA3AF;
+    --theme-border: rgba(255, 255, 255, 0.06);
+    --theme-header: #030712;
+    --theme-footer: #070B14;
+  }
+
   body {
-    @apply bg-brasil-light text-slate-900 font-body antialiased selection:bg-brasil-yellow selection:text-brasil-green;
+    @apply bg-theme-bg text-theme-text-primary font-body antialiased transition-colors duration-300 selection:bg-theme-primary/20 selection:text-theme-primary;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display font-black tracking-tight;
+    @apply font-display font-bold tracking-tight text-theme-text-primary;
   }
 
-  /* Transição padrão suave para todos os elementos interativos */
+  /* Transição padrão suave */
   button, a, input, [role="button"] {
-    @apply transition-all duration-200;
+    @apply transition-all duration-200 ease-[var(--ease-premium)];
+  }
+
+  /* Scrollbar customizada premium */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-theme-text-secondary/10 rounded-full transition-colors hover:bg-theme-text-secondary/25;
+  }
+}
+
+@layer utilities {
+  .shadow-accent-glow {
+    box-shadow: 0 0 20px -5px color-mix(in srgb, var(--theme-primary) 30%, transparent);
+  }
+  .shadow-card {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  }
+  .dark .shadow-card {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+  }
+  .shadow-player {
+    box-shadow: 0 -10px 15px -3px rgb(0 0 0 / 0.05), 0 -4px 6px -4px rgb(0 0 0 / 0.05);
+  }
+  .dark .shadow-player {
+    box-shadow: 0 -20px 25px -5px rgb(0 0 0 / 0.4), 0 -8px 10px -6px rgb(0 0 0 / 0.4);
+  }
+  .shadow-elevation-1 {
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.02), 0 1px 2px -1px rgb(0 0 0 / 0.02);
+  }
+  .shadow-elevation-2 {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  }
+  .shadow-elevation-3 {
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   }
 }
 

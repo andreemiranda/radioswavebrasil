@@ -1,5 +1,54 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <rect width="32" height="32" rx="8" fill="#009C3B"/>
-  <path d="M8 20h16M10 14h12M13 8l6 6" stroke="white" stroke-width="2" stroke-linecap="round"/>
-  <circle cx="16" cy="20" r="3" fill="#FFDF00"/>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg_grad" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#121826"/>
+      <stop offset="1" stop-color="#0B0F19"/>
+    </linearGradient>
+    <linearGradient id="wave_grad" x1="120" y1="256" x2="392" y2="256" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#00D4FF"/>
+      <stop offset="1" stop-color="#5B8CFF"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+  
+  <rect width="512" height="512" rx="128" fill="url(#bg_grad)"/>
+  
+  <g filter="url(#glow)">
+    <!-- Equalizer Bars / Radio Waves -->
+    <rect x="120" y="220" width="16" height="72" rx="8" fill="url(#wave_grad)" opacity="0.6">
+      <animate attributeName="height" values="72;40;72" dur="1.2s" repeatCount="indefinite" />
+      <animate attributeName="y" values="220;236;220" dur="1.2s" repeatCount="indefinite" />
+    </rect>
+    <rect x="150" y="180" width="16" height="152" rx="8" fill="url(#wave_grad)" opacity="0.8">
+      <animate attributeName="height" values="152;80;152" dur="0.8s" repeatCount="indefinite" />
+      <animate attributeName="y" values="180;216;180" dur="0.8s" repeatCount="indefinite" />
+    </rect>
+    <rect x="180" y="140" width="16" height="232" rx="8" fill="url(#wave_grad)">
+      <animate attributeName="height" values="232;120;232" dur="1.5s" repeatCount="indefinite" />
+      <animate attributeName="y" values="140;196;140" dur="1.5s" repeatCount="indefinite" />
+    </rect>
+    <rect x="210" y="100" width="16" height="312" rx="8" fill="url(#wave_grad)">
+      <animate attributeName="height" values="312;160;312" dur="1s" repeatCount="indefinite" />
+      <animate attributeName="y" values="100;176;100" dur="1s" repeatCount="indefinite" />
+    </rect>
+    <rect x="240" y="160" width="16" height="192" rx="8" fill="url(#wave_grad)">
+      <animate attributeName="height" values="192;100;192" dur="0.7s" repeatCount="indefinite" />
+      <animate attributeName="y" values="160;206;160" dur="0.7s" repeatCount="indefinite" />
+    </rect>
+    <rect x="270" y="120" width="16" height="272" rx="8" fill="url(#wave_grad)">
+      <animate attributeName="height" values="272;140;272" dur="1.3s" repeatCount="indefinite" />
+      <animate attributeName="y" values="120;186;120" dur="1.3s" repeatCount="indefinite" />
+    </rect>
+    <rect x="300" y="190" width="16" height="132" rx="8" fill="url(#wave_grad)" opacity="0.8">
+      <animate attributeName="height" values="132;60;132" dur="1.1s" repeatCount="indefinite" />
+      <animate attributeName="y" values="190;226;190" dur="1.1s" repeatCount="indefinite" />
+    </rect>
+    <rect x="330" y="230" width="16" height="52" rx="8" fill="url(#wave_grad)" opacity="0.6">
+      <animate attributeName="height" values="52;30;52" dur="0.9s" repeatCount="indefinite" />
+      <animate attributeName="y" values="230;241;230" dur="0.9s" repeatCount="indefinite" />
+    </rect>
+  </g>
 </svg>

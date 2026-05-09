@@ -6,11 +6,17 @@ import TermosDeUso from './pages/TermosDeUso';
 import PoliticaDeCookies from './pages/PoliticaDeCookies';
 import AvisoLegal from './pages/AvisoLegal';
 import GerenciamentoConsentimento from './pages/GerenciamentoConsentimento';
+import Offline from './pages/Offline';
 import { CookieConsentBanner } from './components/CookieConsentBanner';
+import { PlayerProvider, usePlayer } from './context/PlayerContext';
+import { ThemeProvider } from './context/ThemeContext';
+import { AudioPlayer } from './components/AudioPlayer';
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
+  const { playing, isPlaying, togglePlay, volume, setVolume, muted, toggleMute, audioError, retry } = usePlayer();
+
   return (
-    <>
+    <div className={playing ? "pb-[88px]" : ""}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/politica-de-privacidade" element={<PoliticaDePrivacidade />} />
@@ -18,9 +24,34 @@ const App: React.FC = () => {
         <Route path="/politica-de-cookies" element={<PoliticaDeCookies />} />
         <Route path="/aviso-legal" element={<AvisoLegal />} />
         <Route path="/gerenciamento-consentimento" element={<GerenciamentoConsentimento />} />
+        <Route path="/offline" element={<Offline />} />
       </Routes>
       <CookieConsentBanner />
-    </>
+      
+      {playing && (
+        <AudioPlayer 
+          station={playing}
+          isPlaying={isPlaying}
+          onTogglePlay={togglePlay}
+          volume={volume}
+          onVolumeChange={setVolume}
+          muted={muted}
+          onToggleMute={toggleMute}
+          audioError={audioError}
+          onRetry={retry}
+        />
+      )}
+    </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <ThemeProvider>
+      <PlayerProvider>
+        <AppContent />
+      </PlayerProvider>
+    </ThemeProvider>
   );
 };
 

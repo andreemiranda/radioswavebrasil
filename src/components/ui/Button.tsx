@@ -14,13 +14,13 @@ export const Button: React.FC<ButtonProps> = ({
   active,
   ...props
 }) => {
-  const baseStyles = "inline-flex items-center justify-center rounded-xl font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brasil-yellow/50 disabled:opacity-50 disabled:pointer-events-none active:scale-95 hover:scale-[1.02]";
+  const baseStyles = "inline-flex items-center justify-center rounded-xl font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-theme-primary/40 disabled:opacity-50 disabled:pointer-events-none active:scale-95 active:brightness-95";
   
   const variants = {
-    primary: "bg-brasil-yellow text-brasil-green hover:brightness-95 shadow-[0_2px_8px_rgba(255,223,0,0.4)] hover:shadow-[0_4px_20px_rgba(255,223,0,0.5)]",
-    secondary: "bg-brasil-blue text-brasil-white hover:opacity-90 shadow-[0_2px_8px_rgba(0,39,118,0.3)] hover:shadow-[0_4px_20px_rgba(0,39,118,0.4)]",
-    outline: "border-2 border-brasil-green text-brasil-green hover:bg-brasil-green/5 hover:shadow-[0_2px_12px_rgba(0,156,59,0.2)]",
-    ghost: "bg-transparent text-slate-600 hover:bg-slate-100 hover:shadow-sm",
+    primary: "bg-theme-primary text-white hover:bg-theme-primary/95 shadow-accent-glow tracking-tight shadow-elevation-1 hover:shadow-elevation-2 hover:-translate-y-0.5",
+    secondary: "bg-theme-accent text-theme-header hover:bg-theme-accent/90 shadow-sm tracking-tight hover:-translate-y-0.5",
+    outline: "border border-theme-border bg-transparent text-theme-text-primary hover:bg-theme-surface hover:border-theme-primary/30 hover:shadow-elevation-1",
+    ghost: "bg-transparent text-theme-text-secondary hover:bg-theme-primary/5 hover:text-theme-text-primary",
   };
 
   const sizes = {
@@ -36,7 +36,7 @@ export const Button: React.FC<ButtonProps> = ({
         baseStyles,
         variants[variant],
         sizes[size],
-        active && "ring-2 ring-brasil-yellow",
+        active && "ring-2 ring-theme-accent",
         className
       )}
       {...props}

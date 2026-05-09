@@ -100,123 +100,65 @@ export default defineConfig(({ mode }) => {
         manifest: {
           name: 'Radio Wave Brasil',
           short_name: 'RadioWave',
-          description: 'Ouça as melhores rádios do Brasil ao vivo. Sertanejo, Pagode, MPB, Rock, Gospel e Notícias. Grátis, sem anúncios.',
+          description: 'Ouça rádios do Brasil ao vivo com streaming rápido, moderno e otimizado. Progressive Web App premium.',
           start_url: '/',
           scope: '/',
           display: 'standalone',
-          // standalone: abre como app nativo (sem barra de endereço)
-          // outras opções: 'fullscreen' | 'minimal-ui' | 'browser'
-          display_override: ['standalone', 'minimal-ui'],
-          background_color: '#1a1d26',
-          theme_color: '#009C3B',
+          display_override: ['standalone', 'window-controls-overlay'],
+          background_color: '#0B0F19',
+          theme_color: '#00D4FF',
           lang: 'pt-BR',
           dir: 'ltr',
           orientation: 'portrait-primary',
-          categories: ['music', 'entertainment', 'lifestyle'],
-
+          categories: ['music', 'entertainment', 'audio', 'lifestyle'],
+          
           // ── Ícones ───────────────────────────────────────────────────────
           icons: [
             {
-              src: '/favicon-16x16.png',
-              sizes: '16x16',
-              type: 'image/png',
-            },
-            {
-              src: '/favicon-32x32.png',
-              sizes: '32x32',
-              type: 'image/png',
-            },
-            {
-              src: '/favicon-96x96.png',
-              sizes: '96x96',
-              type: 'image/png',
-            },
-            {
-              src: '/icon-192x192.png',
+              src: '/favicon-192x192.png',
               sizes: '192x192',
               type: 'image/png',
-              purpose: 'any',
+              purpose: 'any'
             },
             {
               src: '/icon-192x192-maskable.png',
               sizes: '192x192',
               type: 'image/png',
-              purpose: 'maskable',
-              // maskable: ícone com safe zone para Android adaptive icons
-            },
-            {
-              src: '/icon-256x256.png',
-              sizes: '256x256',
-              type: 'image/png',
-              purpose: 'any',
-            },
-            {
-              src: '/icon-384x384.png',
-              sizes: '384x384',
-              type: 'image/png',
-              purpose: 'any',
+              purpose: 'maskable'
             },
             {
               src: '/icon-512x512.png',
               sizes: '512x512',
               type: 'image/png',
-              purpose: 'any',
+              purpose: 'any'
             },
             {
               src: '/icon-512x512-maskable.png',
               sizes: '512x512',
               type: 'image/png',
-              purpose: 'maskable',
-            },
-            {
-              src: '/favicon.svg',
-              sizes: 'any',
-              type: 'image/svg+xml',
-              purpose: 'any',
-            },
+              purpose: 'maskable'
+            }
           ],
 
-          // ── Screenshots (exibidas na tela de instalação do PWA) ──────────
-          screenshots: [
-            {
-              src: '/og-image.png',
-              sizes: '1200x630',
-              type: 'image/png',
-              form_factor: 'wide',
-              label: 'Radio Wave Brasil — Tela principal desktop',
-            },
-            {
-              src: '/og-image.png',
-              sizes: '1200x630',
-              type: 'image/png',
-              form_factor: 'narrow',
-              label: 'Radio Wave Brasil — Tela principal mobile',
-            },
-          ],
+          // ── Screenshots (PWA Install UI) ─────────────────────────────────
+          screenshots: [],
 
-          // ── Shortcuts (atalhos no ícone do app — Android long-press) ─────
+          // ── Shortcuts ────────────────────────────────────────────────────
           shortcuts: [
             {
-              name: 'Rádios Top',
-              short_name: 'Top',
-              description: 'Ver as rádios mais populares do Brasil',
+              name: 'Populares',
+              short_name: 'Populares',
+              description: 'Ouvir as rádios mais populares',
               url: '/?tab=top',
-              icons: [{ src: '/icon-192x192.png', sizes: '192x192' }],
+              icons: [{ src: '/favicon-192x192.png', sizes: '192x192' }]
             },
             {
               name: 'Favoritos',
               short_name: 'Favoritos',
-              description: 'Suas rádios favoritas',
+              description: 'Acessar meus favoritos',
               url: '/?tab=favorites',
-              icons: [{ src: '/icon-192x192.png', sizes: '192x192' }],
-            },
-            {
-              name: 'Buscar Rádio',
-              short_name: 'Buscar',
-              description: 'Buscar rádios por nome ou gênero',
-              url: '/?tab=search',
-              icons: [{ src: '/icon-192x192.png', sizes: '192x192' }],
-            },
+              icons: [{ src: '/favicon-192x192.png', sizes: '192x192' }]
+            }
           ],
         },
       }),
