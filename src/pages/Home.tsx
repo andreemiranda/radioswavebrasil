@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Radio, Search, SlidersHorizontal, Signal, RefreshCw } from 'lucide-react';
+import { Radio, Search, SlidersHorizontal, Signal, RefreshCw, Smartphone } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { radioService } from '../services/radioService';
 import { RadioStation } from '../types';
@@ -13,10 +13,14 @@ import { RadioCardSkeleton } from '../components/ui/Skeleton';
 import { safeSetItem } from '../lib/storage';
 import { usePlayer } from '../context/PlayerContext';
 import { ThemeToggle } from '../components/ThemeToggle';
+import { useTheme } from '../context/ThemeContext';
 
 const LIMIT = 24;
 
 const Home: React.FC = () => {
+  const { theme } = useTheme();
+  const isBrazil = theme === 'brazil';
+
   // --- UI STATE ---
   const [activeTab, setActiveTab] = useState<'top' | 'search' | 'favorites'>('top');
   const [showFilters, setShowFilters] = useState(false);
@@ -157,12 +161,20 @@ const Home: React.FC = () => {
 
   return (
     <div className={cn(
-      "min-h-screen flex flex-col bg-theme-bg text-theme-text-primary font-body selection:bg-theme-primary selection:text-white"
+      "min-h-screen flex flex-col transition-colors duration-300 bg-theme-bg text-theme-text-primary font-body"
     )}>
       {showInstallBanner && (
-        <div className="fixed top-0 left-0 right-0 z-[300] bg-theme-primary text-white px-4 py-3 flex items-center justify-between gap-4 shadow-accent-glow animate-in slide-in-from-top duration-300">
+        <div className={cn(
+          "fixed top-0 left-0 right-0 z-[300] flex items-center justify-between gap-4 py-3 px-4 shadow-accent-glow animate-slide-up-fade",
+          isBrazil ? "bg-[#009C3B] text-white" : "bg-theme-primary text-white"
+        )}>
           <div className="flex items-center gap-3">
-            <img src="/favicon.svg" alt="RadioWave" className="w-8 h-8 rounded-lg" />
+            <div className={cn(
+              "w-8 h-8 rounded-lg flex items-center justify-center",
+              isBrazil ? "bg-white/10" : "bg-white/20"
+            )}>
+              <Smartphone size={18} />
+            </div>
             <div>
               <p className="text-sm font-black leading-tight">Instalar Radio Wave Brasil</p>
               <p className="text-xs opacity-70 font-medium">Acesso rápido e offline estilo nativo</p>
@@ -171,7 +183,12 @@ const Home: React.FC = () => {
           <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={handleInstallClick}
-              className="bg-white text-theme-primary text-sm font-black px-5 py-2 rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg hover:shadow-white/20"
+              className={cn(
+                "text-sm font-black px-5 py-2 rounded-xl transition-all shadow-lg active:scale-95",
+                isBrazil 
+                  ? "bg-[#FFDF00] text-[#009C3B] shadow-[0_3px_12px_rgba(255,223,0,0.45)] hover:scale-105 hover:bg-[#FFE833] hover:shadow-[0_5px_18px_rgba(255,223,0,0.60)]" 
+                  : "bg-white text-theme-primary hover:scale-105"
+              )}
             >
               Instalar App
             </button>
@@ -186,38 +203,55 @@ const Home: React.FC = () => {
         </div>
       )}
 
-      <header className="sticky top-0 z-50 bg-theme-header/98 backdrop-blur-md text-white border-b border-white/5 px-6 py-4 shadow-elevation-2">
+      <header className={cn(
+        "sticky top-0 z-50 px-6 py-4 transition-all duration-300",
+        isBrazil 
+          ? "bg-[#009C3B] text-white shadow-[0_4px_20px_rgba(0,0,0,0.14),0_1px_6px_rgba(0,0,0,0.08)]" 
+          : "bg-theme-header/98 backdrop-blur-md text-white border-b border-white/5 shadow-elevation-2"
+      )}>
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-theme-primary border border-white/5 shadow-sm hover:scale-105 transition-all duration-300 cursor-default">
-              <Radio size={22} className="text-theme-primary" />
+          <div className="flex items-center gap-4">
+            <div className={cn(
+              "w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 cursor-default",
+              isBrazil 
+                ? "bg-[#FFDF00] text-[#009C3B] shadow-[0_4px_20px_rgba(255,223,0,0.55),0_2px_8px_rgba(255,223,0,0.30)] hover:scale-112 hover:rotate-8 hover:shadow-[0_8px_32px_rgba(255,223,0,0.70),0_4px_14px_rgba(255,223,0,0.45)]" 
+                : "bg-white/10 border border-white/5 text-theme-primary shadow-sm hover:scale-105"
+            )}>
+              <Radio size={22} className={isBrazil ? "text-[#009C3B]" : "text-theme-primary"} />
             </div>
             <div>
-              <h1 className="text-lg font-display font-bold leading-none tracking-tight">Radio Wave Brasil</h1>
-              <span className="text-[9px] text-theme-primary font-bold uppercase tracking-[0.15em] opacity-90 mt-1 block">Premium Stream</span>
+              <h1 className="text-lg font-display font-black leading-none tracking-tight">Radio Wave Brasil</h1>
+              <span className={cn(
+                "text-[9px] font-bold uppercase tracking-[0.15em] mt-1 block",
+                isBrazil ? "text-white/60" : "text-theme-primary opacity-90"
+              )}>Premium Stream</span>
             </div>
           </div>
           
           <div className="flex items-center gap-4">
-            <ThemeToggle className="bg-white/5 border-white/5 hover:bg-white/10" />
+            <ThemeToggle className={isBrazil ? "bg-white/10 border-white/10 hover:bg-white/20" : "bg-white/5 border-white/5 hover:bg-white/10"} />
             
             <div className={cn(
-              "hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-wider border transition-all duration-300",
-              isFetching 
-                ? "bg-theme-accent/20 border-theme-accent/20 text-theme-accent" 
-                : isPlaying 
-                  ? "bg-theme-primary/10 border-theme-primary/20 text-theme-primary shadow-sm" 
-                  : "bg-white/5 border-white/5 text-white/40"
+              "hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.15em] border transition-all duration-300",
+              isBrazil
+                ? "bg-white/15 border-white/20 text-white"
+                : isFetching 
+                  ? "bg-theme-accent/20 border-theme-accent/20 text-theme-accent" 
+                  : isPlaying 
+                    ? "bg-theme-primary/10 border-theme-primary/20 text-theme-primary shadow-sm" 
+                    : "bg-white/5 border-white/5 text-white/40"
             )}>
               <span className={cn(
-                "w-1.5 h-1.5 rounded-full",
-                isFetching 
-                  ? "bg-theme-accent animate-pulse" 
-                  : isPlaying 
-                    ? "bg-theme-primary animate-pulse" 
-                    : "bg-white/20"
+                "w-1.5 h-1.5 rounded-full shadow-[0_0_8px_rgba(74,222,128,0.7)]",
+                isBrazil
+                  ? "bg-[#4ade80] animate-live-pulse"
+                  : isFetching 
+                    ? "bg-theme-accent animate-pulse" 
+                    : isPlaying 
+                      ? "bg-theme-primary animate-pulse" 
+                      : "bg-white/20"
               )} />
-              {isFetching ? 'Sync' : isPlaying ? 'Tocando' : 'Parado'}
+              {isFetching ? 'Sync' : isPlaying ? 'Ao Vivo' : 'Radio'}
             </div>
             {isError && (
               <Button 
@@ -233,21 +267,39 @@ const Home: React.FC = () => {
         </div>
       </header>
 
-      <main className="flex-grow max-w-7xl mx-auto w-full px-6 pt-8 pb-32">
-        <section className="mb-8">
+      <main className="flex-grow max-w-7xl mx-auto w-full px-6 pt-8 pb-32 overflow-hidden">
+        <section className="mb-10">
           <div className="flex flex-col md:flex-row gap-4">
-            <form className="flex-1 flex gap-2" onSubmit={handleSearch}>
+            <form className="flex-1 flex gap-3" onSubmit={handleSearch}>
               <div className="relative flex-1 group">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-theme-text-secondary/40 group-focus-within:text-theme-primary transition-colors" size={18} />
+                <Search className={cn(
+                  "absolute left-4 top-1/2 -translate-y-1/2 transition-colors",
+                  isBrazil 
+                    ? "text-[#009C3B] group-focus-within:text-[#009C3B]" 
+                    : "text-theme-text-secondary/40 group-focus-within:text-theme-primary"
+                )} size={20} />
                 <input 
                   type="text" 
-                  className="w-full h-12 bg-theme-surface border border-theme-border rounded-xl py-3 pl-12 pr-4 text-theme-text-primary placeholder:text-theme-text-secondary/30 focus:outline-none focus:ring-1 focus:ring-theme-primary/40 focus:border-theme-primary/50 transition-all duration-200 font-medium shadow-sm"
+                  className={cn(
+                    "w-full h-[56px] py-3 pl-12 pr-4 transition-all duration-300 font-bold",
+                    isBrazil
+                      ? "bg-white border-2 border-[#E2E8F0] rounded-2xl text-[15px] text-[#0F172A] placeholder-[#0F172A]/30 shadow-[0_2px_8px_rgba(0,0,0,0.06),0_1px_2px_rgba(0,0,0,0.04)] focus:border-[#009C3B] focus:shadow-[0_0_0_4px_rgba(0,156,59,0.12),0_4px_16px_rgba(0,0,0,0.08)] focus:outline-none"
+                      : "bg-theme-surface border border-theme-border rounded-xl text-theme-text-primary placeholder:text-theme-text-secondary/30 focus:outline-none focus:ring-1 focus:ring-theme-primary/40 focus:border-theme-primary/50 shadow-sm"
+                  )}
                   placeholder="Nome da rádio ou palavra-chave..."
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
                 />
               </div>
-              <Button type="submit" className="h-12 rounded-xl px-6 font-bold shadow-sm">
+              <Button 
+                type="submit" 
+                className={cn(
+                  "h-[56px] rounded-2xl px-8 font-black uppercase tracking-widest text-xs",
+                  isBrazil
+                    ? "bg-[#009C3B] text-white shadow-[0_4px_16px_rgba(0,156,59,0.35),0_2px_8px_rgba(0,0,0,0.10)] hover:bg-[#007A2F] hover:shadow-[0_8px_24px_rgba(0,156,59,0.45)] hover:-translate-y-0.5 active:translate-y-0"
+                    : "shadow-sm"
+                )}
+              >
                 Buscar
               </Button>
             </form>
@@ -255,21 +307,27 @@ const Home: React.FC = () => {
             <Button 
               variant="outline" 
               className={cn(
-                "h-12 rounded-xl px-5 border transition-all duration-200",
-                showFilters && "bg-theme-primary/5 border-theme-primary/30 text-theme-primary"
+                "h-[56px] rounded-2xl px-6 border transition-all duration-300 font-black uppercase tracking-widest text-[11px]",
+                showFilters 
+                  ? isBrazil 
+                    ? "bg-[#009C3B]/5 border-[#009C3B]/30 text-[#009C3B]" 
+                    : "bg-theme-primary/5 border-theme-primary/30 text-theme-primary"
+                  : isBrazil
+                    ? "bg-white border-[#E2E8F0] text-[#64748B] hover:border-[#009C3B]/30 hover:bg-[#F0FDF4]/50"
+                    : ""
               )}
               onClick={() => {
                 setShowFilters(!showFilters);
               }}
             >
               <SlidersHorizontal size={18} className="mr-2 opacity-60" />
-              <span className="text-sm font-bold">Filtros</span>
+              <span>Filtros</span>
             </Button>
           </div>
         </section>
 
         {showFilters && (
-          <div className="mb-8 animate-in fade-in slide-in-from-top-2 duration-300">
+          <div className="mb-10 animate-slide-up-fade">
             <FilterPanel 
               selectedState={selectedState}
               onStateChange={handleStateChange}
@@ -280,7 +338,10 @@ const Home: React.FC = () => {
           </div>
         )}
 
-        <nav className="flex items-center gap-6 border-b border-theme-border mb-8 overflow-x-auto no-scrollbar scroll-smooth">
+        <nav className={cn(
+          "flex items-center gap-8 mb-10 overflow-x-auto no-scrollbar scroll-smooth border-b",
+          isBrazil ? "border-[#E2E8F0]/80" : "border-theme-border"
+        )}>
           {[
             { id: 'top' as const, label: '🔥 Populares' },
             { id: 'search' as const, label: '🔍 Geral' },
@@ -289,8 +350,10 @@ const Home: React.FC = () => {
             <button 
               key={tab.id}
               className={cn(
-                "pb-3 text-[11px] font-bold uppercase tracking-widest transition-all duration-200 relative whitespace-nowrap outline-none px-1",
-                activeTab === tab.id ? "text-theme-primary" : "text-theme-text-secondary hover:text-theme-text-primary"
+                "pb-4 text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-300 relative whitespace-nowrap outline-none px-1",
+                activeTab === tab.id 
+                  ? isBrazil ? "text-[#002776]" : "text-theme-primary" 
+                  : "text-[#94A3B8] hover:text-[#475569] hover:scale-105"
               )}
               onClick={() => {
                 setActiveTab(tab.id);
@@ -299,7 +362,12 @@ const Home: React.FC = () => {
             >
               {tab.label}
               {activeTab === tab.id && (
-                <div className="absolute bottom-[-1px] left-0 right-0 h-0.5 bg-theme-primary rounded-full animate-in zoom-in-x duration-200" />
+                <div className={cn(
+                  "absolute bottom-[-2px] left-0 right-0 h-[3px] rounded-t-full animate-tab-indicator",
+                  isBrazil 
+                    ? "bg-gradient-to-r from-[#009C3B] to-[#002776] shadow-[0_-3px_16px_rgba(0,39,118,0.45)]" 
+                    : "bg-theme-primary"
+                )} />
               )}
             </button>
           ))}
@@ -312,20 +380,29 @@ const Home: React.FC = () => {
             ))}
           </div>
         ) : isError ? (
-          <div className="text-center py-20 bg-theme-surface rounded-[2rem] border border-theme-border shadow-card animate-in fade-in zoom-in-95 duration-300">
+          <div className={cn(
+            "text-center py-20 rounded-[2rem] border shadow-card animate-in fade-in zoom-in-95 duration-300",
+            isBrazil ? "bg-white border-[#E2E8F0]" : "bg-theme-surface border-theme-border"
+          )}>
             <Signal className="mx-auto mb-6 text-theme-text-secondary/20" size={80} />
-            <h3 className="text-xl font-display font-black mb-2 text-theme-primary">Conexão Interrompida</h3>
+            <h3 className={cn("text-xl font-display font-black mb-2", isBrazil ? "text-[#009C3B]" : "text-theme-primary")}>Conexão Interrompida</h3>
             <p className="text-theme-text-secondary font-semibold mb-6">Não conseguimos sintonizar as rádios agora.</p>
-            <Button onClick={() => refetch()} variant="outline" className="border-theme-primary text-theme-primary hover:bg-theme-primary/10">Tentar Novamente</Button>
+            <Button onClick={() => refetch()} variant="outline" className={isBrazil ? "border-[#009C3B] text-[#009C3B] hover:bg-[#009C3B]/5" : "border-theme-primary text-theme-primary hover:bg-theme-primary/10"}>Tentar Novamente</Button>
           </div>
         ) : (stationsData?.data?.length ?? 0) === 0 ? (
-          <div className="text-center py-20 bg-theme-surface rounded-[2rem] border border-theme-border shadow-card">
+          <div className={cn(
+            "text-center py-20 rounded-[2rem] border shadow-card",
+            isBrazil ? "bg-white border-[#E2E8F0]" : "bg-theme-surface border-theme-border"
+          )}>
             <Signal className="mx-auto mb-4 text-theme-text-secondary/20" size={60} />
             <p className="text-theme-text-secondary/60 font-bold tracking-widest uppercase text-sm">Nenhuma rádio encontrada.</p>
             {(searchQuery || selectedGenre || selectedState) && (
               <Button 
                 variant="ghost" 
-                className="mt-4 text-theme-primary font-black uppercase text-xs tracking-widest hover:bg-theme-primary/5" 
+                className={cn(
+                  "mt-4 font-black uppercase text-xs tracking-widest",
+                  isBrazil ? "text-[#009C3B] hover:bg-[#009C3B]/5" : "text-theme-primary hover:bg-theme-primary/5"
+                )} 
                 onClick={() => {
                   setSearchQuery('');
                   setSearchInput('');
@@ -341,10 +418,11 @@ const Home: React.FC = () => {
         ) : (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {Array.isArray(stationsData?.data) && stationsData.data.map(station => (
+              {Array.isArray(stationsData?.data) && stationsData.data.map((station, index) => (
                 <RadioCard 
                   key={station.id}
                   station={station}
+                  index={index % 12}
                   isPlaying={isPlaying && playing?.id === station.id}
                   isActive={playing?.id === station.id}
                   isFavorite={isFavorite(station.id)}
@@ -376,3 +454,4 @@ const Home: React.FC = () => {
 };
 
 export default Home;
+
