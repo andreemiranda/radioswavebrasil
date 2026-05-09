@@ -15,6 +15,14 @@
   --color-theme-header: var(--theme-header);
   --color-theme-footer: var(--theme-footer);
 
+  --color-brasil-green: #009C3B;
+  --color-brasil-yellow: #FFDF00;
+  --color-brasil-blue: #002776;
+  --color-brasil-light: #F8F9FA;
+  --color-brasil-surface: #FFFFFF;
+  --color-brasil-text-primary: #0F172A;
+  --color-brasil-text-secondary: #64748B;
+
   --font-display: "Outfit", sans-serif;
   --font-body: "Inter", sans-serif;
 
