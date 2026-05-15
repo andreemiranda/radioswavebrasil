@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import { Play, Pause, Volume2, VolumeX, AlertCircle } from "lucide-react";
 import { RadioStation } from "../types";
 import { StationImage } from "./StationImage";
@@ -31,15 +31,35 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const { theme } = useTheme();
   const isBrazil = theme === 'brazil';
 
+  const playerRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const updateHeight = () => {
+      if (playerRef.current) {
+        document.documentElement.style.setProperty('--player-height', `${playerRef.current.offsetHeight}px`);
+      }
+    };
+
+    updateHeight();
+    window.addEventListener('resize', updateHeight);
+    return () => {
+      window.removeEventListener('resize', updateHeight);
+      document.documentElement.style.removeProperty('--player-height');
+    };
+  }, []);
+
   return (
-    <div className={cn(
-      "fixed bottom-0 left-0 right-0 z-[200]",
-      isBrazil ? "animate-from-bottom" : "animate-in slide-in-from-bottom duration-500"
-    )}>
+    <div 
+      ref={playerRef}
+      className={cn(
+        "fixed bottom-0 left-0 right-0 z-[200]",
+        isBrazil ? "animate-from-bottom" : "animate-in slide-in-from-bottom duration-500"
+      )}
+    >
       {/* Visual progress bar (accentuated for radio live feel) */}
       <div className={cn(
-        "absolute top-0 left-0 right-0 z-10",
-        isBrazil ? "h-1" : "h-1 bg-white/5"
+        "absolute top-0 left-0 right-0 z-10 h-1",
+        !isBrazil && "bg-white/5"
       )}>
         <div 
           className={cn(
@@ -145,7 +165,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
                 value={volume}
                 onChange={(e) => onVolumeChange(parseFloat(e.target.value))}
                 className={cn(
-                  "w-20 h-1 rounded-full appearance-none cursor-pointer h-1",
+                  "w-20 h-1 rounded-full appearance-none cursor-pointer",
                   isBrazil ? "bg-[#009C3B]/20 accent-[#009C3B]" : "bg-theme-text-primary/10 accent-theme-primary"
                 )}
               />

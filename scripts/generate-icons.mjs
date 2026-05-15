@@ -1,71 +1,109 @@
 import sharp from 'sharp';
+import fs from 'fs';
+import path from 'path';
 import toIco from 'to-ico';
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 
-const publicDir = './public';
-if (!existsSync(publicDir)) {
-  mkdirSync(publicDir);
-}
+const ICON_MASTER = path.join(process.cwd(), 'public', 'icon-master.svg');
+const ICON_MASKABLE = path.join(process.cwd(), 'public', 'icon-master-maskable.svg');
+const OUTPUT_DIR = path.join(process.cwd(), 'public');
 
-const faviconPath = './public/favicon.svg';
-const ogPath = './public/og-image.svg';
+const sizes = [
+  { name: 'favicon-16x16.png', size: 16, source: ICON_MASTER },
+  { name: 'favicon-32x32.png', size: 32, source: ICON_MASTER },
+  { name: 'favicon-48x48.png', size: 48, source: ICON_MASTER },
+  { name: 'favicon-96x96.png', size: 96, source: ICON_MASTER },
+  { name: 'apple-touch-icon.png', size: 180, source: ICON_MASTER },
+  { name: 'icon-192x192.png', size: 192, source: ICON_MASTER },
+  { name: 'icon-192x192-maskable.png', size: 192, source: ICON_MASKABLE },
+  { name: 'icon-256x256.png', size: 256, source: ICON_MASTER },
+  { name: 'icon-384x384.png', size: 384, source: ICON_MASTER },
+  { name: 'icon-512x512.png', size: 512, source: ICON_MASTER },
+  { name: 'icon-512x512-maskable.png', size: 512, source: ICON_MASKABLE },
+  { name: 'mstile-70x70.png', size: 70, source: ICON_MASTER },
+  { name: 'mstile-144x144.png', size: 144, source: ICON_MASTER },
+  { name: 'mstile-150x150.png', size: 150, source: ICON_MASTER },
+  { name: 'mstile-310x310.png', size: 310, source: ICON_MASTER }
+];
 
-async function generateIcons() {
-  console.log('--- Inicando geração de ícones ---');
-  
-  try {
-    const faviconBuffer = readFileSync(faviconPath);
+// Specials
+const wideSizes = [
+  { name: 'mstile-310x150.png', width: 310, height: 150, source: ICON_MASTER }
+];
 
-    const icons = [
-      { file: 'favicon-16x16.png', size: 16 },
-      { file: 'favicon-32x32.png', size: 32 },
-      { file: 'apple-touch-icon.png', size: 180 },
-      { file: 'android-chrome-192x192.png', size: 192 },
-      { file: 'android-chrome-512x512.png', size: 512 },
-      { file: 'mstile-70x70.png', size: 70 },
-      { file: 'mstile-144x144.png', size: 144 },
-      { file: 'mstile-150x150.png', size: 150 },
-      { file: 'mstile-310x310.png', size: 310 },
-    ];
+const splashScreens = [
+  { name: 'apple-splash-750x1334.png', width: 750, height: 1334 },
+  { name: 'apple-splash-1170x2532.png', width: 1170, height: 2532 },
+  { name: 'apple-splash-1179x2556.png', width: 1179, height: 2556 },
+  { name: 'apple-splash-1284x2778.png', width: 1284, height: 2778 },
+  { name: 'apple-splash-1290x2796.png', width: 1290, height: 2796 },
+  { name: 'apple-splash-1620x2160.png', width: 1620, height: 2160 },
+  { name: 'apple-splash-2048x2732.png', width: 2048, height: 2732 }
+];
 
-    for (const { file, size } of icons) {
-      await sharp(faviconBuffer)
-        .resize(size, size)
-        .png()
-        .toFile(`${publicDir}/${file}`);
-      console.log(`✅ Gerado: ${file} (${size}x${size})`);
-    }
+async function generate() {
+  console.log('🚀 Starting icon generation...');
 
-    // Gerar wide tile 310x150
-    await sharp(faviconBuffer)
-      .resize(310, 150, { fit: 'contain', background: { r: 26, g: 29, b: 38, alpha: 1 } })
+  // Standard squares
+  for (const item of sizes) {
+    await sharp(item.source)
+      .resize(item.size, item.size)
       .png()
-      .toFile(`${publicDir}/mstile-310x150.png`);
-    console.log('✅ Gerado: mstile-310x150.png (310x150)');
-
-    // Gerar favicon.ico
-    const pngs = await Promise.all([16, 32].map(async s => {
-      return await sharp(faviconBuffer).resize(s, s).png().toBuffer();
-    }));
-    const ico = await toIco(pngs);
-    writeFileSync(`${publicDir}/favicon.ico`, ico);
-    console.log('✅ Gerado: favicon.ico');
-
-    // Gerar OG Image PNG
-    if (existsSync(ogPath)) {
-      const ogBuffer = readFileSync(ogPath);
-      await sharp(ogBuffer)
-        .resize(1200, 630)
-        .png()
-        .toFile(`${publicDir}/og-image.png`);
-      console.log('✅ Gerado: og-image.png (1200x630)');
-    }
-
-    console.log('--- Geração de ícones concluída ---');
-  } catch (error) {
-    console.error('❌ Erro ao gerar ícones:', error);
-    process.exit(1);
+      .toFile(path.join(OUTPUT_DIR, item.name));
+    console.log(`✅ Generated ${item.name}`);
   }
+
+  // Wide Tile
+  for (const item of wideSizes) {
+    await sharp(item.source)
+      .resize(item.width, item.height, { fit: 'contain', background: { r: 11, g: 15, b: 25, alpha: 1 } })
+      .png()
+      .toFile(path.join(OUTPUT_DIR, item.name));
+    console.log(`✅ Generated ${item.name}`);
+  }
+
+  // Apple Splash screens
+  for (const splash of splashScreens) {
+    const iconSize = Math.floor(Math.min(splash.width, splash.height) * 0.4);
+    const iconBuffer = await sharp(ICON_MASTER)
+      .resize(iconSize, iconSize)
+      .png()
+      .toBuffer();
+
+    await sharp({
+      create: {
+        width: splash.width,
+        height: splash.height,
+        channels: 4,
+        background: { r: 11, g: 15, b: 25, alpha: 1 }
+      }
+    })
+    .composite([{ input: iconBuffer }])
+    .png()
+    .toFile(path.join(OUTPUT_DIR, splash.name));
+    console.log(`✅ Generated ${splash.name}`);
+  }
+
+  // Favicon.ico
+  const icoSizes = [16, 32, 48];
+  const buffers = await Promise.all(
+    icoSizes.map(size => sharp(ICON_MASTER).resize(size, size).png().toBuffer())
+  );
+  const icoFile = await toIco(buffers);
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'favicon.ico'), icoFile);
+  console.log('✅ Generated favicon.ico');
+
+  // OG Image 1200x630 for main SEO
+  await sharp(ICON_MASTER)
+    .resize(400, 400)
+    .extend({
+      top: 115, bottom: 115, left: 400, right: 400,
+      background: { r: 11, g: 15, b: 25, alpha: 1 }
+    })
+    .png()
+    .toFile(path.join(OUTPUT_DIR, 'og-image-1200x630.png'));
+  console.log('✅ Generated og-image-1200x630.png');
+
+  console.log('✨ All icons generated successfully!');
 }
 
-generateIcons();
+generate().catch(console.error);

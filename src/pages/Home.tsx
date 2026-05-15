@@ -94,7 +94,7 @@ const Home: React.FC = () => {
     refetch,
     isFetching 
   } = useQuery({
-    queryKey: ['stations', activeTab, searchQuery, selectedState, selectedGenre, page, favorites],
+    queryKey: ['stations', activeTab, searchQuery, selectedState, selectedGenre, page],
     queryFn: async () => {
       const offset = (page - 1) * LIMIT;
       
@@ -125,13 +125,13 @@ const Home: React.FC = () => {
   };
 
   const handleStateChange = (state: string) => {
-    setSelectedState(prev => prev === state ? '' : state);
+    setSelectedState(state === '' ? '' : (prev => prev === state ? '' : state));
     setPage(1);
     setActiveTab('search');
   };
 
   const handleGenreChange = (genre: string) => {
-    setSelectedGenre(prev => prev === genre ? '' : genre);
+    setSelectedGenre(genre === '' ? '' : (prev => prev === genre ? '' : genre));
     setPage(1);
     setActiveTab('search');
   };
@@ -148,10 +148,6 @@ const Home: React.FC = () => {
   const handleToggleFavorite = (e: React.MouseEvent, station: RadioStation) => {
     e.stopPropagation();
     toggleFavorite(station);
-    if (!isFavorite(station.id)) {
-      setActiveTab('favorites');
-      setPage(1);
-    }
   };
 
   const totalPages = useMemo(() => {

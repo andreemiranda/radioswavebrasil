@@ -121,7 +121,7 @@ export const CookieConsentBanner: React.FC = () => {
           <button 
             onClick={() => setIsVisible(false)}
             className="absolute top-6 right-6 text-white/30 hover:text-white transition-colors p-2"
-            aria-label="Fecar banner"
+            aria-label="Fechar banner"
           >
             <X size={24} />
           </button>

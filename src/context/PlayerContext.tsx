@@ -98,17 +98,13 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
   useEffect(() => {
     safeSetItem('RadioWaveBR_volume', String(volume));
+    safeSetItem('RadioWaveBR_muted', String(muted));
+    
     if (audioRef.current) {
       audioRef.current.volume = muted ? 0 : volume;
-    }
-  }, [volume, muted]);
-
-  useEffect(() => {
-    safeSetItem('RadioWaveBR_muted', String(muted));
-    if (audioRef.current) {
       audioRef.current.muted = muted;
     }
-  }, [muted]);
+  }, [volume, muted]);
 
   useEffect(() => {
     safeSetItem('RadioWaveBR_favorites', JSON.stringify(favorites));
@@ -117,9 +113,10 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   // Restore playback on mount
   useEffect(() => {
     if (hasRestoredRef.current || !audioRef.current) return;
-    hasRestoredRef.current = true;
-
+    
+    // Check if we have a station to restore
     if (playing) {
+      hasRestoredRef.current = true;
       audioRef.current.src = getStreamUrl(playing.streamUrl);
       audioRef.current.load();
       audioRef.current.play()
@@ -128,8 +125,11 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({ children }) 
           console.info('[RadioWave] Autoplay blocked or failed. Waiting for interaction.');
           setIsPlaying(false);
         });
+    } else {
+      // If no station, mark as restored anyway so we don't try again
+      hasRestoredRef.current = true;
     }
-  }, [playing]);
+  }, []); // Run only once on mount
 
   // --- MEDIA SESSION API ---
   useEffect(() => {
@@ -205,7 +205,7 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     return () => clearTimeout(timer);
   }, [playing, isPlaying]);
 
-  // --- ACTIONS ---
+  // --- HELPERS ---
   const getStreamUrl = (url: string, retryFlag = false) => {
     let src = url;
     // @ts-ignore
@@ -217,6 +217,7 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     return src;
   };
 
+  // --- ACTIONS ---
   const playStation = (station: RadioStation) => {
     if (playing?.id === station.id) {
       togglePlay();

@@ -251,8 +251,8 @@ const GerenciamentoConsentimento: React.FC = () => {
              className={cn(
                "inline-flex items-center gap-3 font-black px-10 py-5 rounded-2xl transition-all shadow-xl hover:scale-105 active:scale-95 group",
                isBrazil 
-                 ? "bg-[#009C3B] text-white shadow-[0_12px_32px_rgba(0,156,59,0.3)]" 
-                 : "bg-theme-primary text-white shadow-accent-glow"
+                 ? "bg-[#009C3B] !text-white shadow-[0_12px_32px_rgba(0,156,59,0.3)]" 
+                 : "bg-theme-primary !text-white shadow-accent-glow"
              )}
            >
              <Mail size={20} className="group-hover:rotate-12 transition-transform" />

@@ -16,7 +16,7 @@ const AppContent: React.FC = () => {
   const { playing, isPlaying, togglePlay, volume, setVolume, muted, toggleMute, audioError, retry } = usePlayer();
 
   return (
-    <div className={playing ? "pb-[88px]" : ""}>
+    <div style={{ paddingBottom: playing ? 'var(--player-height, 88px)' : 0 }}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/politica-de-privacidade" element={<PoliticaDePrivacidade />} />
