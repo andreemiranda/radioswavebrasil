@@ -74,10 +74,10 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       </div>
 
       <div className={cn(
-        "px-6 py-4 flex items-center justify-between gap-6 border-t border-theme-border",
+        "px-6 py-4 flex items-center justify-between gap-6 border-t",
         isBrazil 
-          ? "bg-[#FFDF00] animate-player-glow text-[#009C3B]" 
-          : "bg-theme-surface/90 backdrop-blur-xl text-theme-text-primary shadow-elevation-3"
+          ? "bg-[#002776]/98 backdrop-blur-2xl animate-player-glow text-white border-[#FFDF00]/10" 
+          : "bg-theme-surface/90 backdrop-blur-xl text-theme-text-primary shadow-elevation-3 border-theme-border"
       )}>
         <div className="max-w-7xl mx-auto w-full flex items-center justify-between gap-4 sm:gap-10">
           
@@ -96,11 +96,11 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
             <div className="min-w-0">
               <h3 className={cn(
                 "text-sm font-display font-black leading-tight truncate",
-                isBrazil ? "text-[#009C3B]" : "text-theme-text-primary"
+                isBrazil ? "text-[#FFDF00]" : "text-theme-text-primary"
               )}>{station.name}</h3>
               <p className={cn(
                 "text-[10px] font-bold uppercase tracking-wider mt-1 opacity-60",
-                isBrazil ? "text-[#002776]" : "text-theme-text-secondary"
+                isBrazil ? "text-white" : "text-theme-text-secondary"
               )}>
                 {station.codec} {(station.bitrate && station.bitrate > 0) ? `· ${station.bitrate}kbps` : '· Digital'}
               </p>
@@ -144,7 +144,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
             <div className={cn(
               "flex items-center gap-3 px-4 py-2 rounded-xl border",
               isBrazil 
-                ? "bg-white/10 border-[#009C3B]/10 text-[#009C3B]" 
+                ? "bg-white/5 border-white/10 text-[#FFDF00]" 
                 : "bg-theme-text-primary/5 border-theme-border"
             )}>
               <button 

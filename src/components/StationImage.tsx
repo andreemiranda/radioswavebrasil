@@ -30,10 +30,10 @@ const BrazilFlagBadge = ({ className, style }: { className?: string; style?: Rea
  */
 const DefaultRadioIcon = ({ size }: { size: number }) => (
   <div 
-    className="relative bg-slate-100 dark:bg-white/5 flex items-center justify-center rounded-xl shadow-inner overflow-hidden border border-white/5"
+    className="relative bg-[#FFDF00] flex items-center justify-center rounded-xl shadow-inner overflow-hidden border border-white/20"
     style={{ width: size, height: size }}
   >
-    <Radio className="text-slate-400 dark:text-white/20" size={size * 0.45} />
+    <Radio className="text-[#009C3B] drop-shadow-sm" size={size * 0.5} />
     <BrazilFlagBadge 
       className="absolute bottom-1 right-1" 
       style={{ width: size * 0.35, height: 'auto' }}
@@ -64,7 +64,7 @@ export const StationImage: React.FC<StationImageProps> = ({
   return (
     <div 
       className={cn(
-        "relative overflow-hidden flex items-center justify-center bg-slate-100 dark:bg-white/5 rounded-xl shrink-0 border border-white/5 shadow-sm transition-transform group-hover:scale-105",
+        "relative overflow-hidden flex items-center justify-center bg-slate-200 dark:bg-white/10 rounded-xl shrink-0 border border-white/5 shadow-sm transition-transform group-hover:scale-105",
         className
       )}
       style={{ width: size, height: size }}
