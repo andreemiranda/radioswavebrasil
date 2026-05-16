@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Radio, Search, SlidersHorizontal, Signal, RefreshCw, Smartphone } from 'lucide-react';
+import { Radio, Search, SlidersHorizontal, Signal, RefreshCw } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { radioService } from '../services/radioService';
 import { RadioStation } from '../types';
@@ -10,7 +10,6 @@ import { FilterPanel } from '../components/FilterPanel';
 import { RadioCard } from '../components/RadioCard';
 import { Pagination } from '../components/ui/Pagination';
 import { RadioCardSkeleton } from '../components/ui/Skeleton';
-import { safeSetItem } from '../lib/storage';
 import { usePlayer } from '../context/PlayerContext';
 import { ThemeToggle } from '../components/ThemeToggle';
 import { useTheme } from '../context/ThemeContext';
@@ -39,39 +38,6 @@ const Home: React.FC = () => {
     isFavorite, 
     favorites 
   } = usePlayer();
-
-  // --- PWA INSTALLATION LOGIC ---
-  const [installPrompt, setInstallPrompt] = useState<Event | null>(null);
-  const [showInstallBanner, setShowInstallBanner] = useState(false);
-
-  useEffect(() => {
-    const handler = (e: Event) => {
-      e.preventDefault();
-      setInstallPrompt(e);
-      const dismissed = localStorage.getItem('RadioWaveBR_pwaInstallDismissed');
-      if (!dismissed) {
-        setShowInstallBanner(true);
-      }
-    };
-    window.addEventListener('beforeinstallprompt', handler);
-    return () => window.removeEventListener('beforeinstallprompt', handler);
-  }, []);
-
-  const handleInstallClick = async () => {
-    if (!installPrompt) return;
-    const prompt = installPrompt as any;
-    prompt.prompt();
-    const { outcome } = await prompt.userChoice;
-    if (outcome === 'accepted') {
-      setShowInstallBanner(false);
-      setInstallPrompt(null);
-    }
-  };
-
-  const handleDismissInstall = () => {
-    setShowInstallBanner(false);
-    safeSetItem('RadioWaveBR_pwaInstallDismissed', 'true', true);
-  };
 
   // --- QUERIES ---
   
@@ -159,46 +125,6 @@ const Home: React.FC = () => {
     <div className={cn(
       "min-h-screen flex flex-col transition-colors duration-300 bg-theme-bg text-theme-text-primary font-body"
     )}>
-      {showInstallBanner && (
-        <div className={cn(
-          "fixed top-0 left-0 right-0 z-[300] flex items-center justify-between gap-4 py-3 px-4 shadow-accent-glow animate-slide-up-fade",
-          isBrazil ? "bg-[#009C3B] text-white" : "bg-theme-primary text-white"
-        )}>
-          <div className="flex items-center gap-3">
-            <div className={cn(
-              "w-8 h-8 rounded-lg flex items-center justify-center",
-              isBrazil ? "bg-white/10" : "bg-white/20"
-            )}>
-              <Smartphone size={18} />
-            </div>
-            <div>
-              <p className="text-sm font-black leading-tight">Instalar Radio Wave Brasil</p>
-              <p className="text-xs opacity-70 font-medium">Acesso rápido e offline estilo nativo</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 shrink-0">
-            <button
-              onClick={handleInstallClick}
-              className={cn(
-                "text-sm font-black px-5 py-2 rounded-xl transition-all shadow-lg active:scale-95",
-                isBrazil 
-                  ? "bg-[#FFDF00] text-[#009C3B] shadow-[0_3px_12px_rgba(255,223,0,0.45)] hover:scale-105 hover:bg-[#FFE833] hover:shadow-[0_5px_18px_rgba(255,223,0,0.60)]" 
-                  : "bg-white text-theme-primary hover:scale-105"
-              )}
-            >
-              Instalar App
-            </button>
-            <button
-              onClick={handleDismissInstall}
-              className="opacity-60 hover:opacity-100 text-xs font-bold px-3 py-2 hover:bg-white/10 rounded-lg transition-colors"
-              title="Dispensar"
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-      )}
-
       <header className={cn(
         "sticky top-0 z-50 px-6 py-4 transition-all duration-300",
         isBrazil 
