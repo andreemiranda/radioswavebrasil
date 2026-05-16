@@ -42,9 +42,10 @@ export const RadioCard: React.FC<RadioCardProps> = ({
                 : "bg-white border-transparent shadow-card hover:shadow-card-hover hover:border-[#FFDF00]/40"
             )
           : cn(
+              "rounded-xl border",
               isActive 
-                ? "bg-theme-primary/5 border-theme-primary/20 shadow-elevation-1" 
-                : "bg-theme-surface border-theme-border shadow-elevation-1 hover:shadow-elevation-2"
+                ? "bg-theme-primary/5 border-theme-primary/40 animate-active-glow shadow-accent-glow" 
+                : "bg-theme-surface border-theme-border shadow-elevation-1 hover:shadow-elevation-2 hover:border-theme-primary/30"
             )
       )}
       onClick={() => onPlay(station)}
@@ -54,9 +55,10 @@ export const RadioCard: React.FC<RadioCardProps> = ({
         size={64} 
         className={cn(
           "rounded-2xl shadow-sm transition-all duration-300",
+          "group-hover:scale-[1.12] group-hover:-rotate-2",
           isBrazil 
-            ? "shadow-[0_2px_10px_rgba(0,0,0,0.12)] group-hover:scale-[1.12] group-hover:-rotate-2 group-hover:shadow-[0_6px_20px_rgba(0,156,59,0.30)]" 
-            : "group-hover:shadow-md"
+            ? "shadow-[0_2px_10px_rgba(0,0,0,0.12)] group-hover:shadow-[0_6px_20px_rgba(0,156,59,0.30)]" 
+            : "group-hover:shadow-accent-glow"
         )}
       />
       
@@ -76,24 +78,21 @@ export const RadioCard: React.FC<RadioCardProps> = ({
         
         {isActive && isPlaying && (
           <div className="flex items-end gap-0.5 h-3 mt-2.5">
-            {isBrazil ? (
-              [0, 0.15, 0.3, 0.45, 0.6].map((delay, i) => (
-                <span 
-                  key={i} 
-                  className="w-[3px] bg-[#009C3B] rounded-full" 
-                  style={{ 
-                    animation: `wave 0.8s infinite ease-in-out`, 
-                    animationDelay: `${delay}s`,
-                    minHeight: '4px',
-                    boxShadow: '0 0 6px rgba(0,156,59,0.5)'
-                  }} 
-                />
-              ))
-            ) : (
-              [0, 0.2, 0.4, 0.6].map((delay, i) => (
-                <span key={i} className="w-1 bg-theme-primary rounded-full animate-[wave_1s_infinite_ease-in-out]" style={{ animationDelay: `${delay}s` }} />
-              ))
-            )}
+            {[0, 0.15, 0.3, 0.45, 0.6].map((delay, i) => (
+              <span 
+                key={i} 
+                className={cn(
+                  "w-[3px] rounded-full",
+                  isBrazil ? "bg-[#009C3B]" : "bg-theme-primary"
+                )}
+                style={{ 
+                  animation: `wave 0.8s infinite ease-in-out`, 
+                  animationDelay: `${delay}s`,
+                  minHeight: '4px',
+                  boxShadow: isBrazil ? '0 0 6px rgba(0,156,59,0.5)' : '0 0 6px var(--theme-primary)'
+                }} 
+              />
+            ))}
           </div>
         )}
 
@@ -105,7 +104,7 @@ export const RadioCard: React.FC<RadioCardProps> = ({
                 "text-[9px] px-2 py-0.5 rounded-md font-bold tracking-wider leading-none uppercase transition-all duration-200",
                 isBrazil 
                   ? "bg-[#009C3B]/5 text-[#009C3B]/65 border border-[#009C3B]/12 hover:bg-[#009C3B]/14 hover:text-[#009C3B] hover:border-[#009C3B]/28 hover:shadow-[0_2px_8px_rgba(0,156,59,0.15)] hover:-translate-y-px" 
-                  : "bg-theme-text-secondary/5 text-theme-text-secondary"
+                  : "bg-theme-text-secondary/5 text-theme-text-secondary border border-transparent hover:border-theme-primary/20 hover:text-theme-primary hover:bg-theme-primary/5"
               )}
             >
               {t}
@@ -119,12 +118,18 @@ export const RadioCard: React.FC<RadioCardProps> = ({
           className={cn(
             "p-2 rounded-full transition-all duration-250",
             isFavorite
-              ? isBrazil
-                ? "bg-[#009C3B] text-[#FFDF00] scale-112 shadow-[0_3px_14px_rgba(0,156,59,0.45)] animate-star-pop"
-                : "text-theme-accent scale-110"
-              : isBrazil
-                ? "text-[#009C3B]/20 hover:text-[#FFDF00] hover:scale-[1.28] hover:rotate-[15deg] hover:shadow-[0_2px_10px_rgba(255,223,0,0.35)]"
-                : "text-theme-text-secondary/30 hover:text-theme-accent"
+              ? cn(
+                  "animate-star-pop",
+                  isBrazil
+                    ? "bg-[#009C3B] text-[#FFDF00] scale-112 shadow-[0_3px_14px_rgba(0,156,59,0.45)]"
+                    : "text-theme-accent scale-110 drop-shadow-[0_0_8px_var(--theme-accent)]"
+                )
+              : cn(
+                  "hover:scale-[1.28] hover:rotate-[15deg]",
+                  isBrazil
+                    ? "text-[#009C3B]/20 hover:text-[#FFDF00] hover:shadow-[0_2px_10px_rgba(255,223,0,0.35)]"
+                    : "text-theme-text-secondary/30 hover:text-theme-accent"
+                )
           )}
           onClick={(e) => onFavorite(e, station)}
           title={isFavorite ? "Remover dos favoritos" : "Adicionar aos favoritos"}
@@ -133,14 +138,17 @@ export const RadioCard: React.FC<RadioCardProps> = ({
         </button>
         
         <div className={cn(
-          "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-250",
+          "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-250 shadow-premium-accent",
+          isActive
+            ? "animate-pulse-ring shadow-accent-glow"
+            : "hover:scale-[1.2] shadow-premium-accent-hover",
           isBrazil
             ? isActive
-              ? "bg-[#009C3B] text-[#FFDF00] animate-pulse-ring shadow-accent-glow"
-              : "bg-[#FFDF00] text-[#009C3B] shadow-[0_4px_16px_rgba(255,223,0,0.45),0_2px_8px_rgba(0,0,0,0.12)] hover:scale-[1.18] hover:shadow-[0_8px_28px_rgba(255,223,0,0.60),0_4px_12px_rgba(0,0,0,0.14)]"
+              ? "bg-[#009C3B] text-[#FFDF00] border-brasil-yellow/20"
+              : "bg-[#FFDF00] text-[#009C3B] border-transparent"
             : isActive
-              ? "bg-theme-primary text-white shadow-accent-glow"
-              : "bg-theme-surface text-theme-text-secondary border border-theme-border group-hover:border-theme-primary/30 group-hover:text-theme-primary shadow-sm"
+              ? "bg-theme-primary text-white border-white/10"
+              : "bg-theme-surface text-theme-text-secondary border border-theme-border group-hover:border-theme-primary/30 group-hover:text-theme-primary"
         )}>
           {isActive && isPlaying ? (
             <Pause size={isBrazil ? 20 : 18} fill="currentColor" />

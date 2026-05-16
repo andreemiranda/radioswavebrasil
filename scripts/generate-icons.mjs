@@ -93,15 +93,31 @@ async function generate() {
   console.log('✅ Generated favicon.ico');
 
   // OG Image 1200x630 for main SEO
-  await sharp(ICON_MASTER)
-    .resize(400, 400)
-    .extend({
-      top: 115, bottom: 115, left: 400, right: 400,
-      background: { r: 11, g: 15, b: 25, alpha: 1 }
-    })
-    .png()
-    .toFile(path.join(OUTPUT_DIR, 'og-image-1200x630.png'));
-  console.log('✅ Generated og-image-1200x630.png');
+  const OG_SVG = path.join(OUTPUT_DIR, 'og-image.svg');
+  if (fs.existsSync(OG_SVG)) {
+    await sharp(OG_SVG)
+      .resize(1200, 630)
+      .png()
+      .toFile(path.join(OUTPUT_DIR, 'og-image-1200x630.png'));
+    
+    // Also generate a copy as og-image.png for compatibility
+    await sharp(OG_SVG)
+      .resize(1200, 630)
+      .png()
+      .toFile(path.join(OUTPUT_DIR, 'og-image.png'));
+      
+    console.log('✅ Generated og-image-1200x630.png and og-image.png from SVG source');
+  } else {
+    await sharp(ICON_MASTER)
+      .resize(400, 400)
+      .extend({
+        top: 115, bottom: 115, left: 400, right: 400,
+        background: { r: 11, g: 15, b: 25, alpha: 1 }
+      })
+      .png()
+      .toFile(path.join(OUTPUT_DIR, 'og-image-1200x630.png'));
+    console.log('✅ Generated placeholder og-image-1200x630.png');
+  }
 
   console.log('✨ All icons generated successfully!');
 }

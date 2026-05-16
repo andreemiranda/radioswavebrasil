@@ -47,10 +47,10 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
               selectedState === '' 
                 ? isBrazil
                   ? "bg-[#002776] text-white border-[#002776] shadow-[0_6px_20px_rgba(0,39,118,0.35)]"
-                  : "bg-theme-primary text-white border-theme-primary shadow-sm" 
+                  : "bg-theme-primary text-white border-theme-primary shadow-accent-glow" 
                 : isBrazil
                   ? "bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0] hover:bg-[#F0FDF4] hover:text-[#009C3B] hover:border-[#009C3B]/30 hover:-translate-y-0.5"
-                  : "bg-theme-bg text-theme-text-secondary border-theme-border hover:bg-theme-primary/5 hover:text-theme-primary hover:border-theme-primary/20"
+                  : "bg-theme-bg text-theme-text-secondary border-theme-border hover:bg-theme-primary/5 hover:text-theme-primary hover:border-theme-primary/20 hover:-translate-y-0.5"
             )}
           >
             Todos
@@ -64,10 +64,10 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
                 selectedState === uf 
                   ? isBrazil
                     ? "bg-[#002776] text-white border-[#002776] shadow-[0_6px_20px_rgba(0,39,118,0.35)] scale-110"
-                    : "bg-theme-primary text-white border-theme-primary shadow-sm" 
+                    : "bg-theme-primary text-white border-theme-primary shadow-accent-glow scale-110" 
                   : isBrazil
                     ? "bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0] hover:bg-[#F0FDF4] hover:text-[#009C3B] hover:border-[#009C3B]/30 hover:-translate-y-0.5"
-                    : "bg-theme-bg text-theme-text-secondary border-theme-border hover:bg-theme-primary/5 hover:text-theme-primary hover:border-theme-primary/20"
+                    : "bg-theme-bg text-theme-text-secondary border-theme-border hover:bg-theme-primary/5 hover:text-theme-primary hover:border-theme-primary/20 hover:-translate-y-0.5"
               )}
             >
               {uf}
@@ -92,10 +92,10 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
                 selectedGenre === genre 
                   ? isBrazil
                     ? "bg-[#009C3B] text-white border-[#009C3B] shadow-[0_6px_20px_rgba(0,156,59,0.35)] scale-110"
-                    : "bg-theme-accent text-theme-header border-theme-accent shadow-sm" 
+                    : "bg-theme-accent text-theme-header border-theme-accent shadow-accent-glow scale-110" 
                   : isBrazil
                     ? "bg-[#F1F5F9] text-[#475569] border-[#E1E8F0] hover:bg-[#FDFCE8] hover:text-[#A16207] hover:border-[#CA8A04]/40 hover:-translate-y-0.5"
-                    : "bg-theme-bg text-theme-text-secondary border-theme-border hover:bg-theme-accent/5 hover:text-theme-header hover:border-theme-accent/20"
+                    : "bg-theme-bg text-theme-text-secondary border-theme-border hover:bg-theme-accent/5 hover:text-theme-header hover:border-theme-accent/20 hover:-translate-y-0.5"
               )}
             >
               {genre}

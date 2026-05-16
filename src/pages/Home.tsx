@@ -208,12 +208,12 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className={cn(
-              "w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 cursor-default",
+              "w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 cursor-default animate-pulse-ring",
               isBrazil 
                 ? "bg-[#FFDF00] text-[#009C3B] shadow-[0_4px_20px_rgba(255,223,0,0.55),0_2px_8px_rgba(255,223,0,0.30)] hover:scale-112 hover:rotate-8 hover:shadow-[0_8px_32px_rgba(255,223,0,0.70),0_4px_14px_rgba(255,223,0,0.45)]" 
-                : "bg-white/10 border border-white/5 text-theme-primary shadow-sm hover:scale-105"
+                : "bg-theme-primary text-white shadow-accent-glow hover:scale-112 hover:rotate-8 hover:shadow-premium-accent-hover"
             )}>
-              <Radio size={22} className={isBrazil ? "text-[#009C3B]" : "text-theme-primary"} />
+              <Radio size={22} className={isBrazil ? "text-[#009C3B]" : "text-white"} />
             </div>
             <div>
               <h1 className="text-lg font-display font-black leading-none tracking-tight">Radio Wave Brasil</h1>
@@ -228,23 +228,23 @@ const Home: React.FC = () => {
             <ThemeToggle className={isBrazil ? "bg-white/10 border-white/10 hover:bg-white/20" : "bg-white/5 border-white/5 hover:bg-white/10"} />
             
             <div className={cn(
-              "hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.15em] border transition-all duration-300",
+              "hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] border transition-all duration-300",
               isBrazil
-                ? "bg-white/15 border-white/20 text-white"
+                ? "bg-white/15 border-white/20 text-white shadow-[0_2px_10px_rgba(0,156,59,0.3)]"
                 : isFetching 
-                  ? "bg-theme-accent/20 border-theme-accent/20 text-theme-accent" 
+                  ? "bg-theme-accent/20 border-theme-accent/20 text-theme-accent shadow-accent-glow" 
                   : isPlaying 
-                    ? "bg-theme-primary/10 border-theme-primary/20 text-theme-primary shadow-sm" 
+                    ? "bg-theme-primary/10 border-theme-primary/20 text-theme-primary shadow-accent-glow" 
                     : "bg-white/5 border-white/5 text-white/40"
             )}>
               <span className={cn(
-                "w-1.5 h-1.5 rounded-full shadow-[0_0_8px_rgba(74,222,128,0.7)]",
+                "w-1.5 h-1.5 rounded-full shadow-[0_0_8px_currentColor]",
                 isBrazil
                   ? "bg-[#4ade80] animate-live-pulse"
                   : isFetching 
-                    ? "bg-theme-accent animate-pulse" 
+                    ? "bg-theme-accent animate-live-pulse" 
                     : isPlaying 
-                      ? "bg-theme-primary animate-pulse" 
+                      ? "bg-theme-primary animate-live-pulse" 
                       : "bg-white/20"
               )} />
               {isFetching ? 'Sync' : isPlaying ? 'Ao Vivo' : 'Radio'}
@@ -290,10 +290,10 @@ const Home: React.FC = () => {
               <Button 
                 type="submit" 
                 className={cn(
-                  "h-[56px] rounded-2xl px-8 font-black uppercase tracking-widest text-xs",
+                  "h-[56px] rounded-2xl px-8 font-black uppercase tracking-widest text-xs transition-all duration-300",
                   isBrazil
-                    ? "bg-[#009C3B] text-white shadow-[0_4px_16px_rgba(0,156,59,0.35),0_2px_8px_rgba(0,0,0,0.10)] hover:bg-[#007A2F] hover:shadow-[0_8px_24px_rgba(0,156,59,0.45)] hover:-translate-y-0.5 active:translate-y-0"
-                    : "shadow-sm"
+                    ? "bg-[#009C3B] text-white shadow-[0_4px_16px_rgba(0,156,59,0.35),0_2px_8px_rgba(0,0,0,0.10)] hover:bg-[#007A2F] hover:shadow-[0_8px_24px_rgba(0,156,59,0.45)] hover:-translate-y-0.5"
+                    : "bg-theme-primary text-white shadow-accent-glow hover:shadow-premium-accent-hover hover:-translate-y-0.5 active:scale-95"
                 )}
               >
                 Buscar
@@ -306,11 +306,11 @@ const Home: React.FC = () => {
                 "h-[56px] rounded-2xl px-6 border transition-all duration-300 font-black uppercase tracking-widest text-[11px]",
                 showFilters 
                   ? isBrazil 
-                    ? "bg-[#009C3B]/5 border-[#009C3B]/30 text-[#009C3B]" 
-                    : "bg-theme-primary/5 border-theme-primary/30 text-theme-primary"
+                    ? "bg-[#009C3B]/5 border-[#009C3B]/30 text-[#009C3B] shadow-inner" 
+                    : "bg-theme-primary/5 border-theme-primary/30 text-theme-primary shadow-inner"
                   : isBrazil
-                    ? "bg-white border-[#E2E8F0] text-[#64748B] hover:border-[#009C3B]/30 hover:bg-[#F0FDF4]/50"
-                    : ""
+                    ? "bg-white border-[#E2E8F0] text-[#64748B] hover:border-[#009C3B]/30 hover:bg-[#F0FDF4]/50 shadow-sm"
+                    : "bg-theme-surface border-theme-border text-theme-text-secondary hover:border-theme-primary/30 hover:bg-theme-primary/5 shadow-sm"
               )}
               onClick={() => {
                 setShowFilters(!showFilters);

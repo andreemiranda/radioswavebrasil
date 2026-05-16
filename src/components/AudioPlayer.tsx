@@ -74,9 +74,9 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       </div>
 
       <div className={cn(
-        "px-6 py-4 flex items-center justify-between gap-6 border-t",
+        "px-6 py-4 flex items-center justify-between gap-6 border-t animate-player-glow",
         isBrazil 
-          ? "bg-[#002776]/98 backdrop-blur-2xl animate-player-glow text-white border-[#FFDF00]/10" 
+          ? "bg-[#002776]/98 backdrop-blur-2xl text-white border-[#FFDF00]/10" 
           : "bg-theme-surface/90 backdrop-blur-xl text-theme-text-primary shadow-elevation-3 border-theme-border"
       )}>
         <div className="max-w-7xl mx-auto w-full flex items-center justify-between gap-4 sm:gap-10">
@@ -90,7 +90,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
                 "rounded-xl transition-all duration-300",
                 isBrazil 
                   ? "border-2 border-[#009C3B]/15 shadow-[0_4px_16px_rgba(0,0,0,0.18),0_2px_8px_rgba(0,156,59,0.15)] hover:scale-105 hover:shadow-[0_6px_24px_rgba(0,156,59,0.28),0_3px_10px_rgba(0,0,0,0.15)]" 
-                  : "border border-theme-border shadow-sm"
+                  : "border border-theme-border shadow-elevation-1 hover:scale-110 hover:shadow-accent-glow hover:border-theme-primary/40"
               )}
             />
             <div className="min-w-0">
@@ -125,10 +125,10 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
             <button 
               onClick={onTogglePlay}
               className={cn(
-                "w-12 h-12 flex items-center justify-center rounded-full transition-all duration-250 outline-none",
+                "w-12 h-12 flex items-center justify-center rounded-full transition-all duration-250 outline-none shadow-premium-accent",
                 isBrazil
                   ? "bg-[#009C3B] text-[#FFDF00] shadow-[0_8px_32px_rgba(0,156,59,0.50),0_4px_16px_rgba(0,156,59,0.30),0_2px_6px_rgba(0,0,0,0.15)] hover:scale-112 hover:shadow-[0_12px_40px_rgba(0,156,59,0.60),0_6px_20px_rgba(0,156,59,0.35)] active:scale-93 active:animate-play-bounce"
-                  : "bg-theme-primary text-white shadow-accent-glow hover:scale-105 active:scale-95"
+                  : "bg-theme-primary text-white shadow-accent-glow hover:scale-112 hover:shadow-premium-accent-hover active:scale-93 active:animate-play-bounce"
               )}
             >
               {isPlaying ? (
