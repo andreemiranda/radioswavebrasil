@@ -115,25 +115,25 @@ export default defineConfig(({ mode }) => {
           // ── Ícones ───────────────────────────────────────────────────────
           icons: [
             {
-              src: '/favicon-192x192.png',
+              src: '/logo.png',
               sizes: '192x192',
               type: 'image/png',
               purpose: 'any'
             },
             {
-              src: '/icon-192x192-maskable.png',
+              src: '/logo.png',
               sizes: '192x192',
               type: 'image/png',
               purpose: 'maskable'
             },
             {
-              src: '/icon-512x512.png',
+              src: '/logo.png',
               sizes: '512x512',
               type: 'image/png',
               purpose: 'any'
             },
             {
-              src: '/icon-512x512-maskable.png',
+              src: '/logo.png',
               sizes: '512x512',
               type: 'image/png',
               purpose: 'maskable'
@@ -141,7 +141,15 @@ export default defineConfig(({ mode }) => {
           ],
 
           // ── Screenshots (PWA Install UI) ─────────────────────────────────
-          screenshots: [],
+          screenshots: [
+            {
+              src: '/og-image.png',
+              sizes: '1200x630',
+              type: 'image/png',
+              form_factor: 'wide',
+              label: 'Radio Wave Brasil — player de rádios brasileiras'
+            }
+          ],
 
           // ── Shortcuts ────────────────────────────────────────────────────
           shortcuts: [
@@ -150,14 +158,14 @@ export default defineConfig(({ mode }) => {
               short_name: 'Populares',
               description: 'Ouvir as rádios mais populares',
               url: '/?tab=top',
-              icons: [{ src: '/favicon-192x192.png', sizes: '192x192' }]
+              icons: [{ src: '/logo.png', sizes: '192x192' }]
             },
             {
               name: 'Favoritos',
               short_name: 'Favoritos',
               description: 'Acessar meus favoritos',
               url: '/?tab=favorites',
-              icons: [{ src: '/favicon-192x192.png', sizes: '192x192' }]
+              icons: [{ src: '/logo.png', sizes: '192x192' }]
             }
           ],
         },

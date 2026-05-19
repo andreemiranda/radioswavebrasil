@@ -30,11 +30,11 @@ const requiredFiles = [
 ];
 
 const socialFiles = [
-  'social/og-facebook.svg',
-  'social/og-instagram-square.svg',
-  'social/og-instagram-stories.svg',
-  'social/og-x-twitter.svg',
-  'social/og-whatsapp.svg'
+  'social/og-facebook.png',
+  'social/og-instagram-square.png',
+  'social/og-instagram-stories.png',
+  'social/og-x-twitter.png',
+  'social/og-whatsapp.png'
 ];
 
 async function validate() {
